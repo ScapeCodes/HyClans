@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login — HyClans</title>
+
+  <link rel="icon" type="image/png" href="images/logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;700&family=Roboto+Condensed:wght@300;400;700&display=swap" rel="stylesheet">
+
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: 'Roboto Condensed', sans-serif;
+      background:#0b1220;
+      color:#e6e6e6;
+      overflow-x:hidden;
+    }
+
+    a {
+      color:#ffffff;
+      text-decoration:none;
+      position:relative;
+      transition:color .2s ease;
+      font-weight:500;
+    }
+    a::after {
+      content:"";
+      position:absolute;
+      width:0; height:2px;
+      left:0; bottom:-2px;
+      background:#6de0ff;
+      transition:width .3s ease;
+    }
+    a:hover { color:#3db8ff; }
+    a:hover::after { width:100%; }
+
+    nav {
+      display:flex; justify-content:space-between; align-items:center;
+      padding:1.2rem 3rem;
+      position:fixed; width:100%; top:0;
+      z-index:1000;
+      backdrop-filter:blur(10px);
+      background:rgba(5,10,20,0.4);
+      border-bottom:1px solid rgba(255,255,255,0.05);
+    }
+    .logo {
+      display:flex; align-items:center; gap:12px;
+      font-family:'Unbounded'; font-size:1.4rem; color:#c9d3ff;
+    }
+    .logo-nav {
+      width:58px; height:58px;
+      background:url('images/logo.png') center/cover no-repeat;
+      border-radius:8px;
+    }
+    .nav-links { display:flex; gap:2rem; }
+
+    header { height:90px; }
+
+    /* Login Hero */
+    .login-hero {
+      padding-top:9rem;
+      text-align:center;
+      background:linear-gradient(180deg, rgba(5,7,12,0.2), #0b1220);
+      padding-bottom:5rem;
+    }
+    .login-hero h1 {
+      font-family:'Unbounded'; font-size:3.6rem; margin-bottom:1rem;
+    }
+    .login-hero p {
+      max-width:720px; margin:0 auto;
+      font-size:1.2rem; color:#c9d3ff;
+      line-height:1.5;
+    }
+
+    /* Login Box */
+    .login-section {
+      padding:4rem 3rem;
+      max-width:480px;
+      margin:0 auto;
+    }
+    .login-box {
+      background:rgba(255,255,255,0.03);
+      border:1px solid rgba(255,255,255,0.06);
+      border-radius:14px;
+      padding:2.5rem;
+      box-shadow:0 12px 30px rgba(3,6,12,0.6);
+      text-align:center;
+    }
+    .login-box h2 {
+      font-family:'Unbounded'; font-size:2rem;
+      margin-bottom:1.6rem;
+    }
+
+    .input-field {
+      width:100%;
+      margin-bottom:1.2rem;
+    }
+    .input-field input {
+      width:100%; padding:0.9rem 1rem;
+      border-radius:8px;
+      border:1px solid rgba(255,255,255,0.08);
+      background:rgba(255,255,255,0.05);
+      color:#e6e6e6;
+      font-size:1rem;
+      transition:200ms ease;
+    }
+    .input-field input:focus {
+      border-color:#6de0ff;
+      outline:none;
+      box-shadow:0 0 8px #6de0ff55;
+    }
+
+    .login-btn {
+      width:100%;
+      padding:0.9rem;
+      border:none;
+      border-radius:8px;
+      font-size:1.1rem;
+      font-weight:600;
+      font-family:'Unbounded';
+      background:linear-gradient(#3db8ff, #6ef7ff);
+      color:#0b1220;
+      cursor:pointer;
+      transition:200ms ease;
+      margin-top:0.4rem;
+    }
+    .login-btn:hover {
+      transform:translateY(-3px);
+      box-shadow:0 8px 20px rgba(109,224,255,0.35);
+    }
+
+    footer {
+      text-align:center;
+      padding:3rem; color:#9aa6c4;
+      border-top:1px solid rgba(255,255,255,0.05);
+      margin-top:3rem;
+    }
+
+    /* Scrollbar */
+    * {
+      scrollbar-width:thin;
+      scrollbar-color:#3db8ff rgba(255,255,255,0.05);
+    }
+    ::-webkit-scrollbar { width:10px; }
+    ::-webkit-scrollbar-track {
+      background:rgba(255,255,255,0.05);
+      border-radius:10px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background:linear-gradient(#3db8ff,#6ef7ff);
+      border-radius:10px;
+      box-shadow:0 0 8px #3db8ffaa;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background:linear-gradient(#6ef7ff,#a8faff);
+      box-shadow:0 0 12px #6ef7ffaa;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <nav>
+      <div class="logo">
+        <div class="logo-nav"></div>
+        HYCLANS
+      </div>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="https://discord.gg/EDaYFTkB66">Discord</a>
+      </div>
+    </nav>
+  </header>
+
+  <section class="login-section">
+    <div class="login-box">
+      <h2>Player Login</h2>
+      <div class="input-field">
+        <input type="text" placeholder="Username" />
+      </div>
+      <div class="input-field">
+        <input type="password" placeholder="Password" />
+      </div>
+      <button class="login-btn">Login</button>
+    </div>
+  </section>
+
+  <footer>
+    © 2025 HyClans. All rights reserved. Not affiliated with Hytale or Hypixel Studios.
+  </footer>
+</body>
+</html>

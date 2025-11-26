@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About — HyClans</title>
+
+  <link rel="icon" type="image/png" href="images/logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;700&family=Roboto+Condensed:wght@300;400;700&display=swap" rel="stylesheet">
+
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: 'Roboto Condensed', sans-serif;
+      background:#0b1220;
+      color:#e6e6e6;
+      overflow-x:hidden;
+    }
+
+    a {
+      color: #ffffff;           /* Soft cyan color */
+      text-decoration: none;     /* Remove default underline */
+      position: relative;        /* Needed for pseudo-element underline */
+      transition: color 0.2s ease;
+      font-weight: 500;
+    }
+
+    /* Hover effect with underline slide-in */
+    a::after {
+      content: "";
+      position: absolute;
+      width: 0;
+      height: 2px;
+      left: 0;
+      bottom: -2px;
+      background: #6de0ff;
+      transition: width 0.3s ease;
+    }
+
+    a:hover {
+      color: #3db8ff; /* Slightly darker on hover */
+    }
+
+    a:hover::after {
+      width: 100%; /* Animate underline on hover */
+    }
+
+    nav {
+      display:flex; justify-content:space-between; align-items:center;
+      padding:1.2rem 3rem; position:fixed; width:100%; top:0;
+      z-index:1000; backdrop-filter:blur(10px);
+      background:rgba(5,10,20,0.4);
+      border-bottom:1px solid rgba(255,255,255,0.05);
+    }
+    .logo { display:flex; align-items:center; gap:12px; font-family:'Unbounded'; font-size:1.4rem; color:#c9d3ff; }
+    .logo-nav { width:58px; height:58px; background:url('images/logo.png') center/cover no-repeat; border-radius:8px; }
+    .nav-links { display:flex; gap:2rem; }
+
+    header { height:90px; }
+
+    .about-hero {
+      padding-top:9rem; text-align:center;
+      background:linear-gradient(180deg, rgba(5,7,12,0.2), #0b1220);
+      padding-bottom:5rem;
+    }
+    .about-hero h1 {
+      font-family:'Unbounded'; font-size:3.6rem; margin-bottom:1rem;
+    }
+    .about-hero p {
+      max-width:720px; margin:0 auto; font-size:1.2rem;
+      color:#c9d3ff; line-height:1.5;
+    }
+
+    .section {
+      padding:5rem 3rem; max-width:1100px; margin:0 auto;
+    }
+    .section h2 {
+      font-family:'Unbounded'; font-size:2.4rem; margin-bottom:1.4rem;
+      color:rgba(230,235,255,0.9);
+    }
+    .section p {
+      font-size:1.15rem; color:rgba(210,220,245,0.9); line-height:1.6;
+    }
+
+    .team-grid {
+      display:grid; grid-template-columns:repeat(auto-fit, minmax(240px,1fr));
+      gap:2rem; margin-top:2.5rem;
+    }
+    .team-card {
+      background:rgba(255,255,255,0.03);
+      border:1px solid rgba(255,255,255,0.04);
+      border-radius:12px;
+      padding:1.6rem;
+      text-align:center;
+      transition:200ms ease;
+    }
+    .team-card:hover {
+      transform:translateY(-6px);
+      border-color:rgba(109,224,255,0.28);
+      box-shadow:0 12px 30px rgba(3,6,12,0.6);
+    }
+
+    footer {
+      text-align:center; padding:3rem; color:#9aa6c4;
+      border-top:1px solid rgba(255,255,255,0.05);
+      margin-top:3rem;
+    }
+
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: #3db8ff rgba(255,255,255,0.05);
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: rgba(255,255,255,0.05);
+      border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(#3db8ff, #6ef7ff);
+      border-radius: 10px;
+      box-shadow: 0 0 8px #3db8ffaa;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(#6ef7ff, #a8faff);
+      box-shadow: 0 0 12px #6ef7ffaa;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- NAVIGATION BAR -->
+  <header>
+    <nav>
+      <div class="logo">
+        <div class="logo-nav"></div>
+        HYCLANS
+      </div>
+
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="https://discord.gg/EDaYFTkB66">Discord</a>
+        <a href="login.html" class="login-icon" title="Login (coming soon)">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" width="22" height="22" viewBox="0 0 16 16">
+            <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+            <path fill-rule="evenodd" d="M8 9a5 5 0 0 0-5 5v1h10v-1a5 5 0 0 0-5-5z"/>
+          </svg>
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <section class="about-hero">
+    <h1>About HyClans</h1>
+    <p>Learn more about the vision, world, and people behind the ultimate clans experience.</p>
+  </section>
+
+  <section class="section">
+    <h2>Our Mission</h2>
+    <p>
+        HyClans aims to redefine what a clans server can be — blending rich world‑building, fast‑paced gameplay,
+        and community‑driven progression into one unified experience. Our goal is to create a world where alliances
+        matter, rivalries shape history, and every player can forge a legacy.
+    </p>
+  </section>
+
+  <section class="section">
+    <h2>The World of HyClans</h2>
+    <p>
+        Set in a realm of ancient magic, fractured kingdoms, and powerful clans, HyClans draws inspiration from
+        Hytale’s vast universe while introducing original lore, factions, and mechanics. Whether you prefer PvP,
+        exploration, base‑building, or trading, every player has a place.
+    </p>
+  </section>
+
+  <section class="section">
+    <h2>Meet the Team</h2>
+    <div class="team-grid">
+      <div class="team-card">
+        <h3>Scape - Founder/Owner</h3>
+        <p>Leads development, direction.</p>
+      </div>
+      <div class="team-card">
+        <h3>Grayvox - Owner</h3>
+        <p>Design gameplay systems, servers, and custom features.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    © 2025 HyClans. All rights reserved. Not affiliated with Hytale or Hypixel Studios.
+    <p>All images shown on this are from the <a href="https://hytale.com/media">hytale website.</a></p>
+  </footer>
+</body>
+</html>

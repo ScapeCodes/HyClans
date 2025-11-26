@@ -13,6 +13,37 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;700&family=Roboto+Condensed:wght@300;400;700&display=swap" rel="stylesheet">
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js">// Header particle animation
+    const c = document.getElementById('header-particles');
+    const ctx = c.getContext('2d');
+    function resize(){ c.width = innerWidth; c.height = 80; }
+    resize();
+    window.addEventListener('resize', resize);
+    let particles = Array.from({length: 50}, () => ({
+    x: Math.random()*innerWidth,
+    y: Math.random()*80,
+    vx: (Math.random()-0.5)*0.4,
+    vy: (Math.random()-0.5)*0.4,
+    size: Math.random()*2+1
+    }));
+    function animate(){
+    ctx.clearRect(0,0,c.width,c.height);
+    ctx.fillStyle = 'rgba(109,224,255,0.8)';
+    particles.forEach(p => {
+    p.x+=p.vx; p.y+=p.vy;
+    if(p.x<0||p.x>c.width) p.vx*=-1;
+    if(p.y<0||p.y>c.height) p.vy*=-1;
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
+    ctx.fill();
+    });
+    requestAnimationFrame(animate);
+    }
+    animate();
+
+
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/ScrollTrigger.min.js"></script>
   <style>
     /* Reset default styling */
     * {
@@ -29,53 +60,37 @@
     }
 
     /* HEADER & NAVIGATION */
+    /* NAVIGATION */
     nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1.2rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 3rem;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+    background: rgba(5, 10, 20, 0.4);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    animation: navFade 1.4s ease;
     }
+    @keyframes navFade { from {opacity: 0;} to {opacity: 1;} }
 
-    /* Logo */
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-family: 'Unbounded', cursive;
-      font-size: 1.4rem;
-      letter-spacing: 2px;
-      color: #c9d3ff;
-    }
 
-    /* Logo image */
-    .logo-nav {
-      width: 58px;
-      height: 58px;
-      background: url('images/logo.png') center/cover no-repeat;
-      border-radius: 8px;
-      display: inline-block;
-    }
+    .logo { display: flex; align-items: center; gap: 12px; font-family: 'Unbounded'; font-size: 1.4rem; color: #c9d3ff; }
+    .logo-nav { width: 58px; height: 58px; background: url('images/logo.png') center/cover no-repeat; border-radius: 8px; }
 
-    /* Nav links */
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 2rem;
-    }
 
+    .nav-links { display: flex; gap: 2rem; }
     .nav-links a {
-      color: #c9d3ff;
-      text-decoration: none;
-      font-size: 1rem;
-      font-weight: 300;
-      transition: color 0.2s ease, transform 0.2s ease;
+    color: #c9d3ff;
+    text-decoration: none;
+    font-size: 1rem;
+    position: relative;
+    transition: 0.25s ease;
     }
-
-    /* Hover effect for nav links */
-    .nav-links a:hover {
-      color: #6de0ff;
-    }
-
+.nav-links a:hover { color: #6de0ff; transform: translateY(-2px); }
     /* Login icon styling */
     .login-icon {
       display: inline-flex;
@@ -338,6 +353,33 @@
       transform: scale(1.05);
     }
 
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: #3db8ff rgba(255,255,255,0.05);
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: rgba(255,255,255,0.05);
+      border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(#3db8ff, #6ef7ff);
+      border-radius: 10px;
+      box-shadow: 0 0 8px #3db8ffaa;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(#6ef7ff, #a8faff);
+      box-shadow: 0 0 12px #6ef7ffaa;
+    }
+
+
     /* Responsive adjustments */
     @media (max-width: 720px) {
       .hero h1 { font-size: 2.4rem; }
@@ -357,10 +399,10 @@
       </div>
 
       <div class="nav-links">
-        <a href="#">Home</a>
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
         <a href="https://discord.gg/EDaYFTkB66">Discord</a>
-        <a href="#">Play</a>
-        <a href="#" class="login-icon" title="Login (coming soon)">
+        <a href="login.html" class="login-icon" title="Login (coming soon)">
           <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" width="22" height="22" viewBox="0 0 16 16">
             <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
             <path fill-rule="evenodd" d="M8 9a5 5 0 0 0-5 5v1h10v-1a5 5 0 0 0-5-5z"/>
