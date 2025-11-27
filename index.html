@@ -13,36 +13,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;700&family=Roboto+Condensed:wght@300;400;700&display=swap" rel="stylesheet">
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js">// Header particle animation
-    const c = document.getElementById('header-particles');
-    const ctx = c.getContext('2d');
-    function resize(){ c.width = innerWidth; c.height = 80; }
-    resize();
-    window.addEventListener('resize', resize);
-    let particles = Array.from({length: 50}, () => ({
-    x: Math.random()*innerWidth,
-    y: Math.random()*80,
-    vx: (Math.random()-0.5)*0.4,
-    vy: (Math.random()-0.5)*0.4,
-    size: Math.random()*2+1
-    }));
-    function animate(){
-    ctx.clearRect(0,0,c.width,c.height);
-    ctx.fillStyle = 'rgba(109,224,255,0.8)';
-    particles.forEach(p => {
-    p.x+=p.vx; p.y+=p.vy;
-    if(p.x<0||p.x>c.width) p.vx*=-1;
-    if(p.y<0||p.y>c.height) p.vy*=-1;
-    ctx.beginPath();
-    ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
-    ctx.fill();
-    });
-    requestAnimationFrame(animate);
-    }
-    animate();
-
-
-  </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/ScrollTrigger.min.js"></script>
   <style>
     /* Reset default styling */
@@ -57,7 +27,18 @@
       background: #0b1220;
       color: #e6e6e6;
       overflow-x: hidden;
+      height: 100%;
     }
+
+    #site-particles {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1; /* behind everything */
+      pointer-events: none;
+    }
+
 
     /* HEADER & NAVIGATION */
     /* NAVIGATION */
@@ -108,9 +89,9 @@
 
     /* HERO SECTION */
     .hero {
-      height: 100vh;
+      min-height: calc(100vh - 150px); /* 100px nav + 50px footer */
       width: 100%;
-      background: url('https://cdn.hytale.com/5e7b9eb650cbcd001176c5bb_8___fleeing_from_scaraks.png') center/cover no-repeat;
+      background: url('https://cdn.hytale.com/5e7a961e5e334000189a2a79_4.jpg') center/cover no-repeat;
       position: relative;
       display: flex;
       align-items: center;
@@ -306,7 +287,7 @@
       padding: 3rem;
       color: #9aa6c4;
       border-top: 1px solid rgba(255,255,255,0.05);
-      margin-top: 2rem;
+      margin-top: 0;
     }
 
     .server-stats {
@@ -353,6 +334,13 @@
       transform: scale(1.05);
     }
 
+    #rotating-word {
+      display: inline-block;
+      transition: opacity 0.5s ease;
+      white-space: nowrap;
+      color: #3db8ff;
+    }
+
     * {
       scrollbar-width: thin;
       scrollbar-color: #3db8ff rgba(255,255,255,0.05);
@@ -389,6 +377,7 @@
   </style>
 </head>
 <body>
+  <canvas id="site-particles"></canvas>
 
   <!-- NAVIGATION BAR -->
   <header>
@@ -415,8 +404,10 @@
   <!-- HERO SECTION -->
   <section class="hero">
     <div class="hero-content">
-      <div class="logo-hero"></div>
-      <h1>The Ultimate Clans Server</h1>
+
+      <h1>
+       THE <span class="word-wrapper"><span id="rotating-word">Ultimate</span></span> CLANS SERVER
+      </h1>
       <p>Forge alliances, conquer realms, and rise as a legend. A new world is coming.</p>
       <button class="cta-btn" onclick="window.location.href='https://discord.gg/EDaYFTkB66'">DISCORD</button>
     </div>
@@ -434,31 +425,30 @@
   </section>
   -->
 
-  <!-- SERVER STATS SECTION -->
-<section class="server-stats">
-  <h2>Server Stats</h2>
-  <div class="stats-container">
-    <div class="stat-box">
-      <h3>Players Online</h3>
-      <!--<span id="online-players">0</span>/<span id="max-players">100</span>-->
-      <span id="online-players">Not Released</span>
+<!-- CONENT
+  <section class="server-stats">
+    <h2>Server Stats</h2>
+    <div class="stats-container">
+      <div class="stat-box">
+        <h3>Players Online</h3>
+        <span id="online-players">0</span>/<span id="max-players">100</span>
+        <span id="online-players">Not Released</span>
+      </div>
+      <div class="stat-box">
+        <h3>Server Version</h3>
+        <span id="server-version">Not Released</span>
+      </div>
+      <div class="stat-box">
+        <h3>Ping</h3>
+        <span id="server-ping">Not Released</span>
+      </div>
+      <div class="stat-box">
+        <h3>IP</h3>
+        <button id="copy-ip-btn" data-ip="hyclans.com">hyclans.com</button>
+      </div>
     </div>
-    <div class="stat-box">
-      <h3>Server Version</h3>
-      <span id="server-version">Not Released</span>
-    </div>
-    <div class="stat-box">
-      <h3>Ping</h3>
-      <span id="server-ping">Not Released</span>
-    </div>
-    <div class="stat-box">
-      <h3>IP</h3>
-      <button id="copy-ip-btn" data-ip="hyclans.com">hyclans.com</button>
-    </div>
-  </div>
-</section>
+  </section>
 
-  <!-- LORE SECTION -->
   <section class="lore-section">
     <h2 class="lore-title">World Lore</h2>
     <div class="lore-columns">
@@ -477,7 +467,6 @@
     </div>
   </section>
 
-  <!-- NEWS SECTION -->
   <section class="news-section">
     <h2 class="news-title">Latest News</h2>
     <div class="news-grid">
@@ -506,16 +495,14 @@
         </div>
       </div>
     </div>
-  </section>
+  </section> -->
 
-  <!-- FOOTER -->
   <footer>
     © 2025 HyClans. All rights reserved. Not affiliated with Hytale or Hypixel Studios.
     <p>All images shown on this are from the <a href="https://hytale.com/media">hytale website.</a></p>
   </footer>
 
 <script>
-  // IP Copy Button
   document.getElementById('copy-ip-btn').addEventListener('click', function() {
     const ip = this.getAttribute('data-ip');
     navigator.clipboard.writeText(ip)
@@ -550,6 +537,101 @@
   //  document.getElementById('seconds').textContent = s;
   //}, 1000);
 </script>
+
+<script>
+// Full-screen particle background
+const canvas = document.getElementById("site-particles");
+const ctx = canvas.getContext("2d");
+
+function resizeParticles() {
+  canvas.width = innerWidth;
+  canvas.height = innerHeight;
+}
+resizeParticles();
+window.addEventListener("resize", resizeParticles);
+
+// Create glowing particles
+const PARTICLE_COUNT = 30;
+const particles = [];
+
+for (let i = 0; i < PARTICLE_COUNT; i++) {
+  particles.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    vx: (Math.random() - 0.5) * 0.3,
+    vy: (Math.random() - 0.5) * 0.3,
+    size: Math.random() * 2 + 1,
+    glow: Math.random() * 8 + 4
+  });
+}
+
+function drawParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  particles.forEach(p => {
+    p.x += p.vx;
+    p.y += p.vy;
+
+    if (p.x < 0) p.x = canvas.width;
+    if (p.x > canvas.width) p.x = 0;
+    if (p.y < 0) p.y = canvas.height;
+    if (p.y > canvas.height) p.y = 0;
+
+    ctx.beginPath();
+    ctx.fillStyle = "rgba(109,224,255,0.7)";
+    ctx.shadowColor = "rgba(109,224,255,1)";
+    ctx.shadowBlur = p.glow;
+    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+    ctx.fill();
+  });
+
+  requestAnimationFrame(drawParticles);
+}
+
+drawParticles();
+</script>
+
+<script>
+const words = [
+  "Ultimate",
+  "Epic",
+  "Mythic",
+
+];
+
+let index = 0;
+const rotatingWord = document.getElementById("rotating-word");
+const wrapper = document.querySelector(".word-wrapper");
+
+let maxWidth = 0;
+const measure = document.createElement("span");
+measure.style.visibility = "hidden";
+measure.style.position = "absolute";
+measure.style.whiteSpace = "nowrap";
+document.body.appendChild(measure);
+
+words.forEach(w => {
+  measure.textContent = w;
+  maxWidth = Math.max(maxWidth, measure.offsetWidth);
+});
+document.body.removeChild(measure);
+
+// lock wrapper width (PREVENT OVERLAP)
+wrapper.style.width = maxWidth + "px";
+
+function rotateWord() {
+  rotatingWord.style.opacity = 0;
+
+  setTimeout(() => {
+    index = (index + 1) % words.length;
+    rotatingWord.textContent = words[index];
+    rotatingWord.style.opacity = 1;
+  }, 500);
+}
+
+setInterval(rotateWord, 7000);
+</script>
+
 
 </body>
 </html>
