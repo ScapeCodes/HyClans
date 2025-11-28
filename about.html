@@ -20,14 +20,13 @@
     }
 
     a {
-      color: #ffffff;           /* Soft cyan color */
-      text-decoration: none;     /* Remove default underline */
-      position: relative;        /* Needed for pseudo-element underline */
+      color: #ffffff;
+      text-decoration: none;
+      position: relative;
       transition: color 0.2s ease;
       font-weight: 500;
     }
 
-    /* Hover effect with underline slide-in */
     a::after {
       content: "";
       position: absolute;
@@ -39,13 +38,8 @@
       transition: width 0.3s ease;
     }
 
-    a:hover {
-      color: #3db8ff; /* Slightly darker on hover */
-    }
-
-    a:hover::after {
-      width: 100%; /* Animate underline on hover */
-    }
+    a:hover { color: #3db8ff; }
+    a:hover::after { width: 100%; }
 
     nav {
       display:flex; justify-content:space-between; align-items:center;
@@ -57,21 +51,7 @@
     .logo { display:flex; align-items:center; gap:12px; font-family:'Unbounded'; font-size:1.4rem; color:#c9d3ff; }
     .logo-nav { width:58px; height:58px; background:url('images/logo.png') center/cover no-repeat; border-radius:8px; }
     .nav-links { display:flex; gap:2rem; }
-
     header { height:90px; }
-
-    .about-hero {
-      padding-top:9rem; text-align:center;
-      background:linear-gradient(180deg, rgba(5,7,12,0.2), #0b1220);
-      padding-bottom:5rem;
-    }
-    .about-hero h1 {
-      font-family:'Unbounded'; font-size:3.6rem; margin-bottom:1rem;
-    }
-    .about-hero p {
-      max-width:720px; margin:0 auto; font-size:1.2rem;
-      color:#c9d3ff; line-height:1.5;
-    }
 
     .section {
       padding:5rem 3rem; max-width:1100px; margin:0 auto;
@@ -84,121 +64,226 @@
       font-size:1.15rem; color:rgba(210,220,245,0.9); line-height:1.6;
     }
 
-    .team-grid {
-      display:grid; grid-template-columns:repeat(auto-fit, minmax(240px,1fr));
-      gap:2rem; margin-top:2.5rem;
-    }
-    .team-card {
-      background:rgba(255,255,255,0.03);
-      border:1px solid rgba(255,255,255,0.04);
-      border-radius:12px;
-      padding:1.6rem;
-      text-align:center;
-      transition:200ms ease;
-    }
-    .team-card:hover {
-      transform:translateY(-6px);
-      border-color:rgba(109,224,255,0.28);
-      box-shadow:0 12px 30px rgba(3,6,12,0.6);
-    }
-
-    footer {
-      text-align:center; padding:3rem; color:#9aa6c4;
-      border-top:1px solid rgba(255,255,255,0.05);
+    /* ---------- TABS SYSTEM ---------- */
+    .tabs {
       margin-top:3rem;
+      display:flex;
+      gap:1rem;
+      border-bottom:1px solid rgba(255,255,255,0.1);
+      padding-bottom:1rem;
+    }
+    .tab {
+      padding:0.6rem 1.2rem;
+      cursor:pointer;
+      font-weight:600;
+      border-radius:8px;
+      transition:0.2s ease;
+      background:rgba(255,255,255,0.05);
+      border:1px solid rgba(255,255,255,0.08);
+    }
+    .tab:hover {
+      background:rgba(109,224,255,0.12);
+      border-color:rgba(109,224,255,0.25);
+    }
+    .tab.active {
+      background:linear-gradient(90deg,#3db8ff,#6ef7ff);
+      color:#000;
+      border-color:transparent;
     }
 
-    * {
-      scrollbar-width: thin;
-      scrollbar-color: #3db8ff rgba(255,255,255,0.05);
+    .tab-content { display:none; margin-top:2rem; animation:fadeIn 0.4s ease; }
+    .tab-content.active { display:block; }
+
+    @keyframes fadeIn {
+      from { opacity:0; transform:translateY(10px); }
+      to { opacity:1; transform:translateY(0); }
     }
 
-    /* Custom Scrollbar */
-    ::-webkit-scrollbar {
-      width: 10px;
+    /* ---------- TEAM TABLE ---------- */
+    table {
+      width:100%;
+      margin-top:2rem;
+      border-collapse:collapse;
+      background:rgba(255,255,255,0.03);
+      border:1px solid rgba(255,255,255,0.05);
+      border-radius:10px;
+      overflow:hidden;
+    }
+    th, td {
+      padding:1rem 1.2rem;
+      text-align:left;
+      border-bottom:1px solid rgba(255,255,255,0.05);
+    }
+    th {
+      background:rgba(255,255,255,0.06);
+      font-weight:700;
+      font-family:'Unbounded';
+    }
+    tr:hover {
+      background:rgba(109,224,255,0.08);
     }
 
-    ::-webkit-scrollbar-track {
-      background: rgba(255,255,255,0.05);
-      border-radius: 10px;
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: linear-gradient(#3db8ff, #6ef7ff);
-      border-radius: 10px;
-      box-shadow: 0 0 8px #3db8ffaa;
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-      background: linear-gradient(#6ef7ff, #a8faff);
-      box-shadow: 0 0 12px #6ef7ffaa;
-    }
   </style>
 </head>
 
 <body>
-  <!-- NAVIGATION BAR -->
   <header>
     <nav>
       <div class="logo">
         <div class="logo-nav"></div>
         HYCLANS
       </div>
-
       <div class="nav-links">
         <a href="index.html">Home</a>
         <a href="about.html">About</a>
         <a href="https://discord.gg/EDaYFTkB66">Discord</a>
-        <a href="login.html" class="login-icon" title="Login (coming soon)">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" width="22" height="22" viewBox="0 0 16 16">
-            <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-            <path fill-rule="evenodd" d="M8 9a5 5 0 0 0-5 5v1h10v-1a5 5 0 0 0-5-5z"/>
-          </svg>
-        </a>
       </div>
     </nav>
   </header>
 
-  <section class="about-hero">
-    <h1>About HyClans</h1>
-    <p>Learn more about the vision, world, and people behind the ultimate clans experience.</p>
-  </section>
-
+  <!-- MAIN SECTION -->
   <section class="section">
-    <h2>Our Mission</h2>
-    <p>
-        HyClans aims to redefine what a clans server can be — blending rich world‑building, fast‑paced gameplay,
-        and community‑driven progression into one unified experience. Our goal is to create a world where alliances
-        matter, rivalries shape history, and every player can forge a legacy.
-    </p>
-  </section>
+    <h2>HyClans Features</h2>
+    <p>Explore core systems that power the HyClans experience.</p>
 
-  <section class="section">
-    <h2>The World of HyClans</h2>
-    <p>
-        Set in a realm of ancient magic, fractured kingdoms, and powerful clans, HyClans draws inspiration from
-        Hytale’s vast universe while introducing original lore, factions, and mechanics. Whether you prefer PvP,
-        exploration, base‑building, or trading, every player has a place.
-    </p>
-  </section>
+    <!-- TABS -->
+    <div class="tabs">
+      <div class="tab active" data-tab="essence">Essence</div>
+      <div class="tab" data-tab="world">World</div>
+      <div class="tab" data-tab="clans">Clans</div>
+      <div class="tab" data-tab="combat">Combat</div>
+      <div class="tab" data-tab="items">Items</div>
+    </div>
 
-  <section class="section">
-    <h2>Meet the Team</h2>
-    <div class="team-grid">
-      <div class="team-card">
-        <h3>Scape - Founder/Owner</h3>
-        <p>Leads development, direction.</p>
-      </div>
-      <div class="team-card">
-        <h3>Grayvox - Owner</h3>
-        <p>Design gameplay systems, servers, and custom features.</p>
-      </div>
+    <!-- TAB CONTENT -->
+    <div class="tab-content" id="world">
+      <h3>World of HyClans</h3>
+      <p>
+        To be decided.
+      </p>
+    </div>
+
+    <div class="tab-content active" id="essence">
+      <h3>The Essence Economy</h3>
+      <p>
+        Essence is the spiritual lifeblood of HyClans — a shimmering energy that flows through every creature,
+        structure, and shard of magic in the realm. It fuels progression, empowers clans, and acts as the core
+        currency of the world. When you fight, explore, craft, or conquer, you shape your destiny through Essence.
+      </p>
+
+      <p>
+        Inspired by soul-based systems like <em>Dark Souls</em>, Essence carries risk, reward, and weight.
+        Every player must decide how boldly they adventure… because every death has a cost.
+      </p>
+
+      <h4 style="margin-top:1.5rem;">How Essence Is Earned</h4>
+      <ul style="margin-left:1.4rem; line-height:1.7;">
+        <li><strong>Defeating mobs</strong> — the stronger the enemy, the more Essence it releases.</li>
+        <li><strong>Slaying players</strong> — claiming their stored Essence in battle.</li>
+        <li><strong>Exploring dangerous regions</strong> — corrupted zones spill raw Essence into the air.</li>
+        <li><strong>Gathering rare resources</strong> — crystals, relics, and ancient minerals infused with power.</li>
+        <li><strong>Completing clan missions</strong> — raids, escorts, defenses, and dungeon assaults.</li>
+      </ul>
+
+      <h4 style="margin-top:1.5rem;">Death, Loss & Recovery</h4>
+      <p>
+        When a player dies, they drop an <strong>Essence Fragment</strong> at the place they fell.
+      </p>
+      <ul style="margin-left:1.4rem; line-height:1.7;">
+        <li>Your stored Essence becomes locked inside the Fragment.</li>
+        <li>You must return to reclaim it — alive.</li>
+        <li>If you die again before recovering it, the Essence is <strong>lost forever</strong>.</li>
+        <li>Enemy players can destroy or steal certain types of Fragments depending on zone rules.</li>
+      </ul>
+
+      <h4 style="margin-top:1.5rem;">Types of Essence</h4>
+      <ul style="margin-left:1.4rem; line-height:1.7;">
+        <li><strong>Raw Essence</strong> — dropped by mobs; common but essential.</li>
+        <li><strong>Refined Essence</strong> — crafted or processed at clan structures; required for mid-tier gear.</li>
+        <li><strong>Pure Essence</strong> — rare energy found in dungeons, bosses, and world events.</li>
+        <li><strong>Corrupted Essence</strong> — unstable, powerful, and often dangerous to use without purification.</li>
+      </ul>
+
+      <h4 style="margin-top:1.5rem;">What Essence Is Used For</h4>
+      <ul style="margin-left:1.4rem; line-height:1.7;">
+        <li><strong>Upgrading equipment</strong> — improve weapons, armor, tools, and magical items.</li>
+        <li><strong>Clan base advancement</strong> — strengthen walls, unlock utilities, or build new structures.</li>
+        <li><strong>Personal stat progression</strong> — increase stamina, power, durability, or magic-related attributes.</li>
+        <li><strong>Crafting & enchanting</strong> — infuse items with Essence-based effects or abilities.</li>
+        <li><strong>Fast travel & rituals</strong> — certain ancient waystones require Essence to activate.</li>
+      </ul>
+
+      <h4 style="margin-top:1.5rem;">A Living, Risk-Reward Economy</h4>
+      <p>
+        Essence ties together every system in HyClans — combat, exploration, crafting, PvP, and clan progression.
+        Those who learn to gather it, protect it, and use it wisely will rise above all others. 
+      </p>
+      <p>
+        But fortune favors the bold — and punishes the careless.
+      </p>
+    </div>
+
+
+    <div class="tab-content" id="clans">
+      <h3>Clan System</h3>
+      <p>
+        To be decided.
+      </p>
+    </div>
+
+    <div class="tab-content" id="combat">
+      <h3>Combat</h3>
+      <p>
+        To be decided.
+      </p>
+    </div>
+
+    <div class="tab-content" id="items">
+      <h3>Items & Gear</h3>
+      <p>
+        To be decided.
+      </p>
     </div>
   </section>
 
-  <footer>
-    © 2025 HyClans. All rights reserved. Not affiliated with Hytale or Hypixel Studios.
-    <p>All images shown on this are from the <a href="https://hytale.com/media">hytale website.</a></p>
-  </footer>
+  <!-- TEAM TABLE -->
+  <section class="section">
+    <h2>Meet the Team</h2>
+
+    <table>
+      <tr>
+        <th>Name</th>
+        <th>Role</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>Scape</td>
+        <td>Founder / Owner</td>
+        <td>Leads development, direction, long-term project vision.</td>
+      </tr>
+      <tr>
+        <td>Grayvox</td>
+        <td>Owner</td>
+        <td>Designs core gameplay systems, backend, and custom server mechanics.</td>
+      </tr>
+    </table>
+  </section>
+
+  <script>
+    // Tab Functionality
+    const tabs = document.querySelectorAll(".tab");
+    const contents = document.querySelectorAll(".tab-content");
+
+    tabs.forEach(tab => {
+      tab.addEventListener("click", () => {
+        tabs.forEach(t => t.classList.remove("active"));
+        contents.forEach(c => c.classList.remove("active"));
+
+        tab.classList.add("active");
+        document.getElementById(tab.dataset.tab).classList.add("active");
+      });
+    });
+  </script>
+
 </body>
 </html>
