@@ -1,0 +1,10 @@
+{
+  "id": "2025-11-20-ui-update",
+  "title": "UI polish & team table tweak",
+  "date": "2025-11-20",
+  "description": "Small styling improvements and team table hover behaviour.",
+  "content": "### UI update\n\n* Tweaked table hover.\n* Improved padding to avoid header overlap.\n\nMore updates soon.",
+  "categories": ["ui"],
+  "tags": ["css","ux"],
+  "draft": false
+}

@@ -39,7 +39,6 @@
       pointer-events: none;
     }
 
-
     /* HEADER & NAVIGATION */
     /* NAVIGATION */
     nav {
@@ -334,11 +333,41 @@
       transform: scale(1.05);
     }
 
-    #rotating-word {
+    #rotating-container {
       display: inline-block;
-      transition: opacity 0.5s ease;
+      position: relative;      /* NEW: allows absolute child */
+      width: 180px;            /* TEMP placeholder — JS replaces this */
+      height: 1em;             /* Keeps vertical alignment correct */
+    }
+
+    #rotating-word {
+      position: absolute;      /* NEW: prevents pushing text */
+      left: 0;
+      top: 0;
       white-space: nowrap;
-      color: #3db8ff;
+      opacity: 1;
+      transition: opacity 0.4s ease;
+      letter-spacing: 0;       /* prevents measurement issues */
+    }
+
+    .title-chunk {
+      display: inline-block;
+    }
+
+    .hero h1 {
+      text-align: center;
+      display: inline-block;
+    }
+
+    .top-line,
+    .bottom-line {
+      display: flex;
+      justify-content: center;
+      gap: 0.4rem;
+    }
+
+    .top-line span {
+      display: inline-block;
     }
 
     * {
@@ -406,8 +435,18 @@
     <div class="hero-content">
 
       <h1>
-       THE <span class="word-wrapper"><span id="rotating-word">Ultimate</span></span> CLANS SERVER
+        <span class="top-line">
+          <span class="title-chunk">THE</span>
+          <span id="rotating-container">
+            <span id="rotating-word">Ultimate</span>
+          </span>
+        </span>
+        <br>
+        <span class="bottom-line">
+          CLANS SERVER
+        </span>
       </h1>
+
       <p>Forge alliances, conquer realms, and rise as a legend. A new world is coming.</p>
       <button class="cta-btn" onclick="window.location.href='https://discord.gg/EDaYFTkB66'">DISCORD</button>
     </div>
@@ -592,16 +631,11 @@ drawParticles();
 </script>
 
 <script>
-const words = [
-  "Ultimate",
-  "Epic",
-  "Mythic",
-
-];
-
+const words = ["Ultimate", "Epic", "Mythic"];
 let index = 0;
-const rotatingWord = document.getElementById("rotating-word");
-const wrapper = document.querySelector(".word-wrapper");
+
+const word = document.getElementById("rotating-word");
+const container = document.getElementById("rotating-container");
 
 let maxWidth = 0;
 const measure = document.createElement("span");
@@ -610,27 +644,31 @@ measure.style.position = "absolute";
 measure.style.whiteSpace = "nowrap";
 document.body.appendChild(measure);
 
+// find widest word
 words.forEach(w => {
   measure.textContent = w;
   maxWidth = Math.max(maxWidth, measure.offsetWidth);
 });
+
 document.body.removeChild(measure);
 
-// lock wrapper width (PREVENT OVERLAP)
-wrapper.style.width = maxWidth + "px";
+// lock container width
+container.style.width = maxWidth + "px";
 
 function rotateWord() {
-  rotatingWord.style.opacity = 0;
+  word.style.opacity = 0;
 
   setTimeout(() => {
     index = (index + 1) % words.length;
-    rotatingWord.textContent = words[index];
-    rotatingWord.style.opacity = 1;
-  }, 500);
+    word.textContent = words[index];
+    word.style.opacity = 1;
+  }, 400);
 }
 
 setInterval(rotateWord, 7000);
 </script>
+
+
 
 
 </body>

@@ -1,0 +1,10 @@
+{
+  "id": "2025-11-28-devlog-nav-blog",
+  "title": "Devlog — Navigation & JSON Blog System",
+  "date": "2025-11-28",
+  "description": "Added a JSON-driven blog system compatible with GitHub Pages.",
+  "content": "# Devlog\n\nWe added a blog system that loads posts from JSON files in /blogs.\n\n## Notes\n- Uses client-side fetch to read JSON.\n- Supports categories and tags.\n- Basic markdown support (headings, lists, bold, italics, links, code blocks).\n\n**Enjoy!**",
+  "categories": ["dev"],
+  "tags": ["blog","feature"],
+  "draft": false
+}
