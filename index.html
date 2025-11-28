@@ -85,19 +85,6 @@
       color: #6de0ff;
       transform: scale(1.1);
     }
-
-    /* HERO SECTION */
-    .hero {
-      min-height: calc(100vh - 150px); /* 100px nav + 50px footer */
-      width: 100%;
-      background: url('https://cdn.hytale.com/5e7a961e5e334000189a2a79_4.jpg') center/cover no-repeat;
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding-top: 6rem;
-    }
-
     .logo-hero {
       width: 100%;
       height: 100%;
@@ -106,8 +93,18 @@
       display: inline-block;
     }
 
+    .hero {
+      min-height: 100vh;
+      width: 100%;
+      background: url('https://cdn.hytale.com/5e7a961e5e334000189a2a79_4.jpg') center/cover no-repeat;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 1rem;
+    }
+
     .hero::after {
-      pointer-events: none;
       content: "";
       position: absolute;
       inset: 0;
@@ -118,8 +115,18 @@
       position: relative;
       z-index: 2;
       text-align: center;
-      max-width: 700px;
+      max-width: 780px;
       padding: 1rem;
+    }
+
+    /* TITLE */
+    .hero-title {
+      font-family: 'Unbounded';
+      font-size: 4rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      line-height: 1.1;
+      margin-bottom: 1.4rem;
     }
 
     .hero h1 {
@@ -137,11 +144,12 @@
       color: #d0d9ff;
     }
 
+    /* BUTTON */
     .cta-btn {
       padding: 1rem 2.5rem;
       font-size: 1.1rem;
       border: none;
-      border-radius: 6px;
+      border-radius: 8px;
       background: linear-gradient(90deg,#3db8ff,#6ef7ff);
       color: #0b1220;
       font-weight: 700;
@@ -154,6 +162,11 @@
     .cta-btn:hover {
       transform: scale(1.05);
       box-shadow: 0 0 15px #3db8ff;
+    }
+
+    .top-line, .bottom-line {
+      display: flex;
+      justify-content: center;
     }
 
     /* COUNTDOWN SECTION */
@@ -335,27 +348,25 @@
 
     #rotating-container {
       display: inline-block;
-      position: relative;      /* NEW: allows absolute child */
-      width: 180px;            /* TEMP placeholder — JS replaces this */
-      height: 1em;             /* Keeps vertical alignment correct */
+      width: auto;
+      position: relative;
     }
 
     #rotating-word {
-      position: absolute;      /* NEW: prevents pushing text */
-      left: 0;
-      top: 0;
+      display: inline-block;
       white-space: nowrap;
-      opacity: 1;
-      transition: opacity 0.4s ease;
-      letter-spacing: 0;       /* prevents measurement issues */
+      border-right: 3px solid #3db8ff;
+      padding-right: 4px;
+      animation: cursorBlink 0.7s infinite;
+      color: #3db8ff;
+      font-weight: 700;
+    }
+
+    @keyframes cursorBlink {
+      50% { border-color: transparent; }
     }
 
     .title-chunk {
-      display: inline-block;
-    }
-
-    .hero h1 {
-      text-align: center;
       display: inline-block;
     }
 
@@ -396,12 +407,11 @@
       box-shadow: 0 0 12px #6ef7ffaa;
     }
 
-
     /* Responsive adjustments */
     @media (max-width: 720px) {
-      .hero h1 { font-size: 2.4rem; }
-      .hero p { font-size: 1rem; }
-      .countdown-container { font-size: 1.6rem; flex-wrap:wrap; gap:1rem; }
+      .hero-title { font-size: 2.6rem; }
+      #rotating-container { width: 150px !important; }
+      .hero-sub { font-size: 1rem; }
     }
   </style>
 </head>
@@ -433,22 +443,22 @@
   <!-- HERO SECTION -->
   <section class="hero">
     <div class="hero-content">
-
-      <h1>
-        <span class="top-line">
-          <span class="title-chunk">THE</span>
-          <span id="rotating-container">
-            <span id="rotating-word">Ultimate</span>
-          </span>
+      <h1 class="hero-title">
+        THE
+        <span id="rotating-container">
+          <span id="rotating-word">Ultimate</span>
         </span>
         <br>
-        <span class="bottom-line">
-          CLANS SERVER
-        </span>
+        CLANS SERVER
       </h1>
 
-      <p>Forge alliances, conquer realms, and rise as a legend. A new world is coming.</p>
-      <button class="cta-btn" onclick="window.location.href='https://discord.gg/EDaYFTkB66'">DISCORD</button>
+      <p class="hero-sub">
+        Forge alliances, conquer realms, and rise as a legend. A new world is coming.
+      </p>
+
+      <button class="cta-btn" onclick="window.location.href='https://discord.gg/EDaYFTkB66'">
+        DISCORD
+      </button>
     </div>
   </section>
 
@@ -633,41 +643,43 @@ drawParticles();
 <script>
 const words = ["Ultimate", "Epic", "Mythic"];
 let index = 0;
+let charIndex = 0;
+let deleting = false;
 
-const word = document.getElementById("rotating-word");
-const container = document.getElementById("rotating-container");
+const el = document.getElementById("rotating-word");
 
-let maxWidth = 0;
-const measure = document.createElement("span");
-measure.style.visibility = "hidden";
-measure.style.position = "absolute";
-measure.style.whiteSpace = "nowrap";
-document.body.appendChild(measure);
+function type() {
+  const current = words[index];
 
-// find widest word
-words.forEach(w => {
-  measure.textContent = w;
-  maxWidth = Math.max(maxWidth, measure.offsetWidth);
-});
+  if (!deleting) {
+    // typing
+    el.textContent = current.substring(0, charIndex + 1);
+    charIndex++;
 
-document.body.removeChild(measure);
+    if (charIndex === current.length) {
+      // longer pause before deleting
+      setTimeout(() => deleting = true, 1400);
+    }
+  } 
+  else {
+    // deleting
+    el.textContent = current.substring(0, charIndex - 1);
+    charIndex--;
 
-// lock container width
-container.style.width = maxWidth + "px";
+    if (charIndex === 0) {
+      deleting = false;
+      index = (index + 1) % words.length;
+    }
+  }
 
-function rotateWord() {
-  word.style.opacity = 0;
+  const typingSpeed = 180;   // slower typing
+  const deletingSpeed = 120; // slower deleting
 
-  setTimeout(() => {
-    index = (index + 1) % words.length;
-    word.textContent = words[index];
-    word.style.opacity = 1;
-  }, 400);
+  setTimeout(type, deleting ? deletingSpeed : typingSpeed);
 }
 
-setInterval(rotateWord, 7000);
+type();
 </script>
-
 
 
 
