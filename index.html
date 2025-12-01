@@ -3,723 +3,658 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HyClans — Coming Soon</title>
+  <title>HyClans — Forged in Legend</title>
 
-  <!-- Favicon -->
   <link rel="icon" type="image/png" href="images/logo.png" />
 
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;700&family=Roboto+Condensed:wght@300;400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/ScrollTrigger.min.js"></script>
+
   <style>
-    /* Reset default styling */
+    :root {
+      --primary: #4dccff;
+      --secondary: #abcfff;
+      --accent: #ff007a;
+      --bg-dark: #050a14;
+      --bg-card: rgba(13, 20, 35, 0.7);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --text-main: #e6e6e6;
+      --text-muted: #94a3b8;
+    }
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      scroll-behavior: smooth;
     }
 
     body {
-      font-family: 'Roboto Condensed', sans-serif;
-      background: #0b1220;
-      color: #e6e6e6;
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-main);
       overflow-x: hidden;
-      height: 100%;
+      line-height: 1.6;
     }
 
+    h1, h2, h3, h4, .btn-text {
+      font-family: 'Unbounded', sans-serif;
+    }
+
+    /* BACKGROUND FX */
     #site-particles {
       position: fixed;
       inset: 0;
       width: 100%;
       height: 100%;
-      z-index: -1; /* behind everything */
+      z-index: 0;
       pointer-events: none;
     }
 
-    /* HEADER & NAVIGATION */
-    /* NAVIGATION */
-    nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1.2rem 3rem;
-    position: fixed;
-    width: 100%;
-    top: 0;
-    z-index: 1000;
-    backdrop-filter: blur(10px);
-    background: rgba(5, 10, 20, 0.4);
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-    animation: navFade 1.4s ease;
-    }
-    @keyframes navFade { from {opacity: 0;} to {opacity: 1;} }
-
-
-    .logo { display: flex; align-items: center; gap: 12px; font-family: 'Unbounded'; font-size: 1.4rem; color: #c9d3ff; }
-    .logo-nav { width: 58px; height: 58px; background: url('images/logo.png') center/cover no-repeat; border-radius: 8px; }
-
-    .nav-links { display: flex; gap: 2rem; }
-    .nav-links a {
-    color: #c9d3ff;
-    text-decoration: none;
-    font-size: 1rem;
-    position: relative;
-    transition: 0.25s ease;
-    }
-.nav-links a:hover { color: #6de0ff; transform: translateY(-2px); }
-    /* Login icon styling */
-    .login-icon {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      color: #c9d3ff;
-      cursor: pointer;
-      transition: color 0.2s ease, transform 0.2s ease;
-    }
-
-    .login-icon:hover {
-      color: #6de0ff;
-      transform: scale(1.1);
-    }
-    .logo-hero {
+    .bg-gradient {
+      position: fixed;
       width: 100%;
       height: 100%;
-      background: url('images/logo.png') center/cover no-repeat;
-      border-radius: 8px;
-      display: inline-block;
+      background: radial-gradient(circle at 50% 0%, #1a2a44 0%, #050a14 60%);
+      z-index: -1;
     }
 
-    .hero {
-      min-height: 85vh;
+    /* NAVIGATION */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 5%;
+      position: fixed;
       width: 100%;
-      background: url('https://cdn.hytale.com/5e7a961e5e334000189a2a79_4.jpg') center/cover no-repeat;
+      top: 0;
+      z-index: 1000;
+      background: rgba(5, 10, 20, 0.6);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--glass-border);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: white;
+      letter-spacing: -1px;
+    }
+    
+    .logo span { color: var(--primary); }
+
+    .nav-links { display: flex; gap: 2.5rem; align-items: center; }
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: 0.3s;
+      position: relative;
+    }
+    .nav-links a:hover, .nav-links a.active { color: white; }
+    
+    .nav-cta {
+      padding: 0.6rem 1.4rem;
+      background: linear-gradient(135deg, var(--primary), #3a8dff);
+      color: #000;
+      border-radius: 6px;
+      font-weight: 700;
+      font-family: 'Unbounded';
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      transition: transform 0.2s;
+    }
+    .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 0 20px rgba(77, 204, 255, 0.4); }
+
+    /* HERO SECTION */
+    .hero {
+      min-height: 100vh;
       position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 0 1rem;
+      overflow: hidden;
     }
 
-    .hero::after {
-      content: "";
+    .hero-bg {
       position: absolute;
       inset: 0;
-      background: linear-gradient(to bottom, rgba(5,7,12,0.4), #0b1220);
+      background: url('https://cdn.hytale.com/5e7a961e5e334000189a2a79_4.jpg') center/cover no-repeat;
+      filter: brightness(0.4);
+      z-index: -1;
+      transform: scale(1.1); /* For parallax JS */
     }
 
     .hero-content {
       position: relative;
       z-index: 2;
       text-align: center;
-      max-width: 780px;
-      padding: 1rem;
+      max-width: 900px;
+      margin-top: 4rem;
     }
 
-    /* TITLE */
-    .hero-title {
-      font-family: 'Unbounded';
-      font-size: 4rem;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      line-height: 1.1;
-      margin-bottom: 1.4rem;
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      background: rgba(77, 204, 255, 0.1);
+      border: 1px solid rgba(77, 204, 255, 0.3);
+      border-radius: 50px;
+      margin-bottom: 2rem;
+      font-size: 0.85rem;
+      color: var(--primary);
+      backdrop-filter: blur(5px);
     }
+    .status-dot { width: 8px; height: 8px; background: var(--primary); border-radius: 50%; box-shadow: 0 0 10px var(--primary); animation: pulse 2s infinite; }
 
+    /* Fixed Typography Stacking */
     .hero h1 {
-      font-family: 'Unbounded';
-      font-size: 4rem;
-      letter-spacing: 3px;
-      margin-bottom: 1rem;
+      font-family: 'Unbounded', sans-serif;
       text-transform: uppercase;
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      display: flex;
+      flex-direction: column; /* This forces the text to stack */
+      align-items: center;
+      gap: 0.2rem;
     }
+
+    .static-text {
+      font-size: 4rem;
+      color: white;
+      letter-spacing: 2px;
+      filter: drop-shadow(0 0 20px rgba(0,0,0,0.5));
+    }
+
+    .dynamic-text-wrapper {
+      font-size: 5.5rem;
+      color: var(--primary);
+      display: inline-flex;
+      align-items: center;
+      min-height: 1.2em;
+      filter: drop-shadow(0 0 30px rgba(77, 204, 255, 0.4));
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 6px;
+      height: 0.7em;
+      background-color: var(--primary);
+      margin-left: 10px;
+      animation: blink 1s step-end infinite;
+    }
+
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
     .hero p {
-      font-size: 1.2rem;
-      margin-bottom: 2rem;
-      font-weight: 300;
-      color: #d0d9ff;
+      font-size: 1.25rem;
+      color: var(--text-muted);
+      margin-bottom: 2.5rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
-    /* BUTTON */
-    .cta-btn {
+    .btn-group { display: flex; gap: 1rem; justify-content: center; }
+
+    .btn {
       padding: 1rem 2.5rem;
-      font-size: 1.1rem;
-      border: none;
       border-radius: 8px;
-      background: linear-gradient(90deg,#3db8ff,#6ef7ff);
-      color: #0b1220;
       font-weight: 700;
-      cursor: pointer;
-      transition: 0.2s;
+      text-decoration: none;
       text-transform: uppercase;
-      letter-spacing: 1px;
+      font-family: 'Unbounded';
+      font-size: 0.9rem;
+      transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
     }
 
-    .cta-btn:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 15px #3db8ff;
+    .btn-primary {
+      background: white;
+      color: black;
+    }
+    .btn-primary:hover {
+      background: var(--primary);
+      box-shadow: 0 0 30px rgba(77, 204, 255, 0.5);
     }
 
-    .top-line, .bottom-line {
-      display: flex;
-      justify-content: center;
+    .btn-outline {
+      border: 1px solid rgba(255,255,255,0.2);
+      color: white;
+      backdrop-filter: blur(5px);
+    }
+    .btn-outline:hover {
+      border-color: white;
+      background: rgba(255,255,255,0.05);
     }
 
-    /* COUNTDOWN SECTION */
-    .countdown-section {
-      padding: 6rem 2rem;
+    /* FEATURES (BENTO GRID) */
+    .section { padding: 8rem 5%; position: relative; z-index: 2; }
+    
+    .section-header {
+      margin-bottom: 4rem;
       text-align: center;
     }
+    .section-header h2 { font-size: 2.5rem; margin-bottom: 1rem; }
+    .section-header p { color: var(--text-muted); }
 
-    .countdown-title {
-      font-family: 'Unbounded';
-      font-size: 2.5rem;
-      margin-bottom: 2rem;
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(2, 300px);
+      gap: 1.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
     }
 
-    .countdown-container {
+    .bento-card {
+      background: var(--bg-card);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s, border-color 0.3s;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
+      justify-content: flex-end;
+      backdrop-filter: blur(10px);
+    }
+
+    .bento-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--primary);
+    }
+
+    .card-large { grid-column: span 2; }
+    .card-tall { grid-row: span 2; }
+
+    .card-bg {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      opacity: 0.4;
+      transition: 0.5s;
+      z-index: 0;
+    }
+    .bento-card:hover .card-bg { transform: scale(1.05); opacity: 0.6; }
+    .card-content { position: relative; z-index: 1; pointer-events: none; }
+    
+    .bento-card h3 { font-size: 1.5rem; margin-bottom: 0.5rem; color: white; }
+    .bento-card p { font-size: 0.9rem; color: #ccc; }
+
+    /* LORE / NEWS SLIDER */
+    .content-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: 2rem;
-      font-size: 2.4rem;
-    }
-
-    .countdown-box {
-      text-align: center;
-      font-family: 'Unbounded';
-    }
-
-    /* LORE + NEWS SECTION STYLES */
-    .lore-section {
-      padding: 6rem 3rem;
-      text-align: center;
-      background: linear-gradient(180deg, rgba(11,18,32,0) 0%, rgba(5,7,12,0.02) 100%);
-    }
-    .lore-title {
-      font-family: 'Unbounded';
-      font-size: 2.5rem;
-      margin-bottom: 2.5rem;
-      color: rgba(230,235,255);
-    }
-    .lore-columns {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 1.6rem;
-      max-width: 1100px;
+      max-width: 1200px;
       margin: 0 auto;
     }
-    .lore-card {
-      background: rgba(255,255,255,0.02);
-      padding: 1.6rem;
-      border-radius: 12px;
-      border: 1px solid rgba(255,255,255,0.03);
-      transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
-      color: rgba(220,230,255,0.9);
-      backdrop-filter: blur(4px);
-    }
-    .lore-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 12px 30px rgba(3,6,12,0.6);
-      border-color: rgba(109,224,255,0.28);
-      color: white
-    }
 
-    .lore-card h3 { font-family: 'Unbounded'; margin-bottom: 0.6rem; }
-    .lore-card p { color: rgba(200,210,230,0.85); font-weight: 300; line-height: 1.45; }
-
-    .news-section {
-      padding: 6rem 3rem;
-      text-align: center;
-    }
-    .news-title {
-      font-family: 'Unbounded';
-      font-size: 2.5rem;
-      margin-bottom: 2.5rem;
-      color: rgba(230,235,255,0.9);
-    }
-    .news-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.6rem;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
     .news-card {
-      background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));
+      background: var(--bg-card);
+      border: 1px solid var(--glass-border);
       border-radius: 12px;
       overflow: hidden;
-      border: 1px solid rgba(255,255,255,0.03);
-      transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
-      backdrop-filter: blur(4px);
+      transition: 0.3s;
     }
-    .news-card:hover { 
-      transform: translateY(-6px); 
-      border-color: rgba(109,224,255,0.28); 
-      box-shadow: 0 14px 36px rgba(3,6,12,0.6); 
-    }
-    .news-thumb { width:100%; height:160px; background-size:cover; background-position:center; filter: saturate(0.85) brightness(0.9); }
-    .news-content { padding: 1.4rem; text-align: left; }
-    .news-content h4 { font-family: 'Unbounded'; margin-bottom: 0.4rem; color: rgba(245,245,255,0.95); }
-    .news-content p { color: rgba(200,210,230,0.85); font-weight: 300; line-height: 1.45; margin-bottom: 0.8rem; }
-
-    a {
-      color: #6de0ff;           /* Soft cyan color */
-      text-decoration: none;     /* Remove default underline */
-      position: relative;        /* Needed for pseudo-element underline */
-      transition: color 0.2s ease;
-      font-weight: 500;
-    }
-
-    /* Hover effect with underline slide-in */
-    a::after {
-      content: "";
-      position: absolute;
-      width: 0;
-      height: 2px;
-      left: 0;
-      bottom: -2px;
-      background: #6de0ff;
-      transition: width 0.3s ease;
-    }
-
-    a:hover {
-      color: #3db8ff; /* Slightly darker on hover */
-    }
-
-    a:hover::after {
-      width: 100%; /* Animate underline on hover */
-    }
+    .news-card:hover { border-color: var(--secondary); transform: translateY(-5px); }
     
+    .news-img {
+      height: 200px;
+      width: 100%;
+      background: #111;
+      overflow: hidden;
+    }
+    .news-img img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+    .news-card:hover .news-img img { transform: scale(1.1); }
+
+    .news-body { padding: 1.5rem; }
+    .news-date { font-size: 0.8rem; color: var(--primary); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem; display: block;}
+    .news-body h4 { font-size: 1.2rem; margin-bottom: 0.8rem; }
+    .news-body p { font-size: 0.9rem; color: var(--text-muted); }
+
     /* FOOTER */
     footer {
-      text-align: center;
-      padding: 3rem;
-      color: #9aa6c4;
-      border-top: 1px solid rgba(255,255,255,0.05);
-      margin-top: 0;
-    }
-
-    .server-stats {
-      text-align: center;
-      padding: 4rem 2rem;
-      background: linear-gradient(180deg, rgba(11,18,32,0.05), #0b1220);
-      color: rgba(230,235,255);
-    }
-    .server-stats h2 {
-      font-family: 'Unbounded';
-      font-size: 2.5rem;
-      margin-bottom: 2rem;
-    }
-    .stats-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 2rem;
-      margin-top: 2rem;
-    }
-    .stat-box {
-      background: rgba(255,255,255,0.05);
-      padding: 1.5rem 2rem;
-      border-radius: 12px;
-      min-width: 150px;
-      font-family: 'Unbounded';
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-    .stat-box:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 20px rgba(3,6,12,0.5);
-    }
-    #copy-ip-btn {
-      background: transparent;
-      border: none;
-      border-radius: 6px;
-      font-size: 1.2rem;
-      color: #4dccff;
-      cursor: pointer;
-      font-weight: 300;
-    }
-
-    #copy-ip-btn:hover {
-      transform: scale(1.05);
-    }
-
-    #rotating-container {
-      display: inline-block;
-      width: auto;
-      position: relative;
-    }
-
-    #rotating-word {
-      display: inline-block;
-      white-space: nowrap;
-      border-right: 3px solid #3db8ff;
-      padding-right: 4px;
-      animation: cursorBlink 0.7s infinite;
-      color: #3db8ff;
-      font-weight: 700;
-    }
-
-    @keyframes cursorBlink {
-      50% { border-color: transparent; }
-    }
-
-    .title-chunk {
-      display: inline-block;
-    }
-
-    .top-line,
-    .bottom-line {
-      display: flex;
-      justify-content: center;
-      gap: 0.4rem;
-    }
-
-    .top-line span {
-      display: inline-block;
-    }
-
-    /* SPONSORS SECTION */
-    .sponsors-section {
-      padding: 5rem 3rem;
-      text-align: center;
-      background: rgba(255,255,255,0.02);
+      border-top: 1px solid var(--glass-border);
+      background: #020408;
+      padding: 4rem 5% 2rem;
       margin-top: 4rem;
-      border-top: 1px solid rgba(255,255,255,0.05);
     }
-
-    .sponsors-title {
-      font-family: 'Unbounded';
-      font-size: 2.4rem;
-      margin-bottom: 3rem;
-      color: rgba(230,235,255,0.9);
-    }
-
-    .sponsors-logos {
+    .footer-content {
       display: flex;
-      justify-content: center;
+      justify-content: space-between;
       flex-wrap: wrap;
-      gap: 3rem;
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto 3rem;
+    }
+    .footer-col h5 { font-family: 'Unbounded'; margin-bottom: 1.5rem; color: white; }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 0.8rem; }
+    .footer-col a { color: var(--text-muted); text-decoration: none; transition: 0.2s; }
+    .footer-col a:hover { color: var(--primary); }
+
+    .copyright {
+      text-align: center;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      font-size: 0.85rem;
+      color: #555;
     }
 
-    .sponsors-logos img {
-      width: 160px;
-      height: auto;
-      filter: grayscale(1) brightness(0.7);
-      transition: filter 0.35s ease, transform 0.3s ease;
-      opacity: 0.7;
-    }
+    /* UTILITIES */
+    .text-gradient { background: linear-gradient(90deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
 
-    .sponsors-logos img:hover {
-      filter: grayscale(0) brightness(1);
-      opacity: 1;
-      transform: scale(1.07);
-    }
-
-
-    * {
-      scrollbar-width: thin;
-      scrollbar-color: #3db8ff rgba(255,255,255,0.05);
-    }
-
-    /* Custom Scrollbar */
-    ::-webkit-scrollbar {
-      width: 10px;
-    }
-
-    ::-webkit-scrollbar-track {
-      background: rgba(255,255,255,0.05);
-      border-radius: 10px;
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: linear-gradient(#3db8ff, #6ef7ff);
-      border-radius: 10px;
-      box-shadow: 0 0 8px #3db8ffaa;
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-      background: linear-gradient(#6ef7ff, #a8faff);
-      box-shadow: 0 0 12px #6ef7ffaa;
-    }
-
-    /* Responsive adjustments */
-    @media (max-width: 720px) {
-      .hero-title { font-size: 2.6rem; }
-      #rotating-container { width: 150px !important; }
-      .hero-sub { font-size: 1rem; }
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .hero h1 { margin-bottom: 1rem; }
+      .static-text { font-size: 2.5rem; }
+      .dynamic-text-wrapper { font-size: 3.5rem; }
+      
+      .bento-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
+      .card-large, .card-tall { grid-column: span 1; grid-row: span 1; min-height: 250px; }
+      .nav-links { display: none; } /* Mobile menu placeholder */
     }
   </style>
 </head>
 <body>
+
+  <div class="bg-gradient"></div>
   <canvas id="site-particles"></canvas>
 
-  <!-- NAVIGATION BAR -->
-  <header>
-    <nav>
-      <div class="logo">
-        <div class="logo-nav"></div>
-        HYCLANS
-      </div>
+  <nav>
+    <div class="logo">
+      <div style="width: 68px; height: 68px; background: url('images/logo.png') center/cover; border-radius: 6px; margin-right: 10px;"></div>
+      <span>HYCLANS</span>
+    </div>
+    <div class="nav-links">
+      <a href="#" class="active">Home</a>
+      <a href="#features">Features</a>
 
-      <div class="nav-links">
-        <a href="index.html">Home</a>
-        <a href="about.html">About</a>
-        <a href="https://discord.gg/EDaYFTkB66">Discord</a>
-        <a href="login.html" class="login-icon" title="Login (coming soon)">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" width="22" height="22" viewBox="0 0 16 16">
-            <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-            <path fill-rule="evenodd" d="M8 9a5 5 0 0 0-5 5v1h10v-1a5 5 0 0 0-5-5z"/>
-          </svg>
-        </a>
-      </div>
-    </nav>
-  </header>
+      <a href="https://discord.gg/EDaYFTkB66" class="nav-cta">Join Discord</a>
+    </div>
+  </nav>
 
-  <!-- HERO SECTION -->
   <section class="hero">
+    <div class="hero-bg"></div>
     <div class="hero-content">
-      <h1 class="hero-title">
-        THE
-        <span id="rotating-container">
-          <span id="rotating-word">Ultimate</span>
-        </span>
-        <br>
-        CLANS SERVER
+      <div class="status-pill">
+        <div class="status-dot"></div>
+        <span>Under Construction</span>
+      </div>
+
+      <h1>
+        <span class="static-text">RULE THE</span>
+        <div class="dynamic-text-wrapper">
+          <span id="rotating-word">LANDS</span><span class="cursor"></span>
+        </div>
       </h1>
 
-      <p class="hero-sub">
-        Forge alliances, conquer realms, and rise as a legend. A new world is coming.
+      <p>
+        The most immersive Clans experience coming to Hytale. Build your fortress, master the economy, and wage war in a world that never sleeps.
       </p>
 
-      <button class="cta-btn" onclick="window.location.href='https://discord.gg/EDaYFTkB66'">
-        DISCORD
-      </button>
-    </div>
-  </section>
-
-  <!-- COUNTDOWN SECTION
-  <section class="countdown-section">
-    <h2 class="countdown-title">Launching In</h2>
-    <div class="countdown-container" id="countdown">
-      <div class="countdown-box"><span id="days">00</span><div>Days</div></div>
-      <div class="countdown-box"><span id="hours">00</span><div>Hours</div></div>
-      <div class="countdown-box"><span id="minutes">00</span><div>Minutes</div></div>
-      <div class="countdown-box"><span id="seconds">00</span><div>Seconds</div></div>
-    </div>
-  </section>
-  -->
-
-<!-- CONENT
-  <section class="server-stats">
-    <h2>Server Stats</h2>
-    <div class="stats-container">
-      <div class="stat-box">
-        <h3>Players Online</h3>
-        <span id="online-players">0</span>/<span id="max-players">100</span>
-        <span id="online-players">Not Released</span>
-      </div>
-      <div class="stat-box">
-        <h3>Server Version</h3>
-        <span id="server-version">Not Released</span>
-      </div>
-      <div class="stat-box">
-        <h3>Ping</h3>
-        <span id="server-ping">Not Released</span>
-      </div>
-      <div class="stat-box">
-        <h3>IP</h3>
-        <button id="copy-ip-btn" data-ip="hyclans.com">hyclans.com</button>
+      <div class="btn-group">
+        <a href="#copy" id="copy-ip-btn" class="btn btn-primary" data-ip="play.hyclans.com">
+          <i data-lucide="play"></i> Copy IP
+        </a>
+        <a href="https://discord.gg/EDaYFTkB66" class="btn btn-outline">
+          <i data-lucide="message-circle"></i> Discord
+        </a>
       </div>
     </div>
   </section>
 
-  <section class="lore-section">
-    <h2 class="lore-title">World Lore</h2>
-    <div class="lore-columns">
-      <div class="lore-card">
-        <h3>The Ancient Realms</h3>
-        <p>Discover the fractured lands shaped by ages of magic, war, and forgotten empires.</p>
-      </div>
-      <div class="lore-card">
-        <h3>The Clans</h3>
-        <p>Every clan has unique origins, strengths, and motives within the world's conflict.</p>
-      </div>
-      <div class="lore-card">
-        <h3>Creatures & Foes</h3>
-        <p>From corrupted beasts to powerful warlords, enemies lurk in every shadow.</p>
-      </div>
+  <section class="section" id="features">
+    <div class="section-header">
+      <h2>Forge Your <span class="text-gradient">Legacy</span></h2>
+      <p>Next-generation mechanics meeting classic clan warfare.</p>
     </div>
-  </section>
 
-  <section class="news-section">
-    <h2 class="news-title">Latest News</h2>
-    <div class="news-grid">
-      <div class="news-card">
-        <div class="news-thumb" style="background-image:url('https://cdn.hytale.com/5e7b9ea050cbcd001176c5af_2___graphics_update_example_3.jpg');"></div>
-        <div class="news-content">
-          <h4>Dev Update #1</h4>
-          <p>Explore early gameplay systems and world-building foundations.</p>
-          <a href="#" class="news-readmore">Read More</a>
+    <div class="bento-grid">
+      <div class="bento-card card-large">
+        <div class="card-bg" style="background-image: url('https://cdn.hytale.com/5e7b9e9b50cbcd001176c5ad_1___zone_1_shadows.jpg');"></div>
+        <div class="card-content">
+          <h3>Territory Conquest</h3>
+          <p>Claim chunks of the world. Build customizable defenses and tax players who pass through your lands.</p>
         </div>
       </div>
-      <div class="news-card">
-        <div class="news-thumb" style="background-image:url('https://cdn.hytale.com/5e7b9ea850cbcd001176c5b1_3___helipack_cruising.jpg');"></div>
-        <div class="news-content">
-          <h4>World Preview</h4>
-          <p>A look at environments awaiting players in the next age of adventure.</p>
-          <a href="#" class="news-readmore">Read More</a>
+      
+      <div class="bento-card">
+        <div class="card-bg" style="background-image: url('https://cdn.hytale.com/5e7b9eb050cbcd001176c5b7_6___watering_corn.png');"></div>
+        <div class="card-content">
+          <h3>Player Economy</h3>
+          <p>Dynamic marketplaces driven entirely by supply and demand.</p>
         </div>
       </div>
-      <div class="news-card">
-        <div class="news-thumb" style="background-image:url('https://cdn.hytale.com/5e7b9ed350cbcd001176c5c3_12___ice_effects_2.png');"></div>
-        <div class="news-content">
-          <h4>Community Spotlight</h4>
-          <p>Featuring art, concepts, and creations from our growing community.</p>
-          <a href="#" class="news-readmore">Read More</a>
+
+      <div class="bento-card">
+        <div class="card-bg" style="background-image: url('https://cdn.hytale.com/5e7b9eab50cbcd001176c5b3_4___fight_with_skeleton_archer.jpg');"></div>
+        <div class="card-content">
+          <h3>Class Systems</h3>
+          <p>Master 4 unique combat classes with custom skill trees.</p>
+        </div>
+      </div>
+
+      <div class="bento-card card-large">
+        <div class="card-bg" style="background-image: url('https://cdn.hytale.com/5e7b9ebd50cbcd001176c5bd_9___goblin_fight.png');"></div>
+        <div class="card-content">
+          <h3>Dungeons & Raids</h3>
+          <p>Venture into the deep zones for legendary loot, but beware of rival clans lurking in the shadows.</p>
         </div>
       </div>
     </div>
-  </section> -->
+  </section>
 
   <footer>
-    © 2025 HyClans. All rights reserved. Not affiliated with Hytale or Hypixel Studios.
-    <p>All images shown on this are from the <a href="https://hytale.com/media">hytale website.</a></p>
+    <div class="footer-content">
+      <div class="footer-col" style="flex: 2; min-width: 300px;">
+        <div class="logo" style="margin-bottom: 1rem;"><span>HYCLANS</span></div>
+        <p style="color: #666; max-width: 350px;">
+          The premier Hytale Clans server experience. Not affiliated with Hypixel Studios. All game assets are property of their respective owners.
+        </p>
+      </div>
+      
+      <div class="footer-col">
+        <h5>Server</h5>
+        <ul>
+          <li><a href="#">Status</a></li>
+          <li><a href="#">Vote</a></li>
+          <li><a href="#">Store</a></li>
+          <li><a href="#">Bans</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Community</h5>
+        <ul>
+          <li><a href="#">Discord</a></li>
+          <li><a href="#">Forums</a></li>
+          <li><a href="#">Staff Applications</a></li>
+          <li><a href="#">Wiki</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="copyright">
+      &copy; 2025 HyClans Network.
+    </div>
   </footer>
 
-<script>
-  document.getElementById('copy-ip-btn').addEventListener('click', function() {
-    const ip = this.getAttribute('data-ip');
-    navigator.clipboard.writeText(ip)
-      .then(() => alert(`IP copied to clipboard: ${ip}`))
-      .catch(err => alert('Failed to copy IP.'));
-  });
+  <script>
+    // Initialize Lucide Icons
+    lucide.createIcons();
 
-  // will be updated when we get hytale server stats
-  fetch('https://api.mcsrvstat.us/2/hyclans.com')
-    .then(res => res.json())
-    .then(data => {
-      document.getElementById('online-players').textContent = data.players.online;
-      document.getElementById('max-players').textContent = data.players.max;
-      document.getElementById('server-version').textContent = data.version;
-      document.getElementById('server-ping').textContent = data.debug.ping + 'ms';
-    })
-    .catch(err => console.log('Failed to fetch server stats:', err));
+    // GSAP Animations
+    gsap.registerPlugin(ScrollTrigger);
 
-  // Countdown timer
-  //const TARGET = new Date("2025-12-01T00:00:00").getTime();
-  //setInterval(() => {
-  //  const now = Date.now();
-  //  const diff = TARGET - now;
-  //  if (diff <= 0) return;
-  //  const d = Math.floor(diff / (1000*60*60*24));
-  //  const h = Math.floor((diff / (1000*60*60)) % 24);
-  //  const m = Math.floor((diff / (1000*60)) % 60);
-  //  const s = Math.floor((diff / 1000) % 60);
-  //  document.getElementById('days').textContent = d;
-  //  document.getElementById('hours').textContent = h;
-  //  document.getElementById('minutes').textContent = m;
-  //  document.getElementById('seconds').textContent = s;
-  //}, 1000);
-</script>
+    // Hero Fade In
+    gsap.from(".hero-content", {
+      duration: 1.5,
+      y: 100,
+      opacity: 0,
+      ease: "power3.out"
+    });
 
-<script>
-// Full-screen particle background
-const canvas = document.getElementById("site-particles");
-const ctx = canvas.getContext("2d");
+    // Bento Grid Stagger
+    gsap.from(".bento-card", {
+      scrollTrigger: {
+        trigger: ".bento-grid",
+        start: "top 80%",
+      },
+      duration: 0.8,
+      y: 50,
+      opacity: 0,
+      stagger: 0.2,
+      ease: "power2.out"
+    });
 
-function resizeParticles() {
-  canvas.width = innerWidth;
-  canvas.height = innerHeight;
-}
-resizeParticles();
-window.addEventListener("resize", resizeParticles);
+    // News Stagger
+    gsap.from(".news-card", {
+      scrollTrigger: {
+        trigger: ".content-grid",
+        start: "top 85%",
+      },
+      duration: 0.8,
+      y: 30,
+      opacity: 0,
+      stagger: 0.2
+    });
 
-// Create glowing particles
-const PARTICLE_COUNT = 30;
-const particles = [];
+    // Parallax Effect for Hero Background
+    window.addEventListener('scroll', () => {
+      const scrolled = window.pageYOffset;
+      const bg = document.querySelector('.hero-bg');
+      if(bg) {
+        bg.style.transform = `translateY(${scrolled * 0.5}px) scale(1.1)`;
+      }
+    });
 
-for (let i = 0; i < PARTICLE_COUNT; i++) {
-  particles.push({
-    x: Math.random() * canvas.width,
-    y: Math.random() * canvas.height,
-    vx: (Math.random() - 0.5) * 0.3,
-    vy: (Math.random() - 0.5) * 0.3,
-    size: Math.random() * 2 + 1,
-    glow: Math.random() * 8 + 4
-  });
-}
+    // FIXED TYPEWRITER EFFECT
+    const words = ["LANDS", "ECONOMY", "DUNGEONS", "WORLD"];
+    let index = 0;
+    // Start with the first word fully typed out
+    let charIndex = words[0].length; 
+    let deleting = false;
+    
+    // We target the text element specifically
+    const el = document.getElementById("rotating-word");
 
-function drawParticles() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+    function type() {
+      const current = words[index];
+      
+      if (!deleting) {
+        // Typing forward
+        el.textContent = current.substring(0, charIndex + 1);
+        charIndex++;
+        
+        if (charIndex === current.length) {
+          // Word finished, pause then delete
+          setTimeout(() => { deleting = true; type(); }, 2000); 
+          return;
+        }
+      } else {
+        // Deleting backward
+        el.textContent = current.substring(0, charIndex - 1);
+        charIndex--;
+        
+        if (charIndex === 0) {
+          // Fully deleted, switch to next word
+          deleting = false;
+          index = (index + 1) % words.length;
+        }
+      }
 
-  particles.forEach(p => {
-    p.x += p.vx;
-    p.y += p.vy;
-
-    if (p.x < 0) p.x = canvas.width;
-    if (p.x > canvas.width) p.x = 0;
-    if (p.y < 0) p.y = canvas.height;
-    if (p.y > canvas.height) p.y = 0;
-
-    ctx.beginPath();
-    ctx.fillStyle = "rgba(109,224,255,0.7)";
-    ctx.shadowColor = "rgba(109,224,255,1)";
-    ctx.shadowBlur = p.glow;
-    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-    ctx.fill();
-  });
-
-  requestAnimationFrame(drawParticles);
-}
-
-drawParticles();
-</script>
-
-<script>
-const words = ["Ultimate", "Epic", "Mythic"];
-let index = 0;
-let charIndex = 0;
-let deleting = false;
-
-const el = document.getElementById("rotating-word");
-
-function type() {
-  const current = words[index];
-
-  if (!deleting) {
-    // typing
-    el.textContent = current.substring(0, charIndex + 1);
-    charIndex++;
-
-    if (charIndex === current.length) {
-      // longer pause before deleting
-      setTimeout(() => deleting = true, 1400);
+      // Typing speed (faster deleting, slower typing)
+      const speed = deleting ? 100 : 150;
+      setTimeout(type, speed);
     }
-  } 
-  else {
-    // deleting
-    el.textContent = current.substring(0, charIndex - 1);
-    charIndex--;
 
-    if (charIndex === 0) {
-      deleting = false;
-      index = (index + 1) % words.length;
+    // Initialize logic after a short delay
+    setTimeout(() => { deleting = true; type(); }, 2000);
+
+    // Copy IP Function
+    document.getElementById('copy-ip-btn').addEventListener('click', function(e) {
+      e.preventDefault();
+      const ip = this.getAttribute('data-ip');
+      navigator.clipboard.writeText(ip).then(() => {
+        const originalText = this.innerHTML;
+        this.innerHTML = `<i data-lucide="check"></i> Copied!`;
+        lucide.createIcons();
+        setTimeout(() => {
+          this.innerHTML = originalText;
+          lucide.createIcons();
+        }, 2000);
+      });
+    });
+
+    // Particle System
+    const canvas = document.getElementById("site-particles");
+    const ctx = canvas.getContext("2d");
+    let particles = [];
+
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
     }
-  }
+    window.addEventListener("resize", resize);
+    resize();
 
-  const typingSpeed = 180;   // slower typing
-  const deletingSpeed = 120; // slower deleting
+    class Particle {
+      constructor() {
+        this.reset();
+      }
+      reset() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.vx = (Math.random() - 0.5) * 0.2;
+        this.vy = (Math.random() - 0.5) * 0.2;
+        this.size = Math.random() * 2;
+        this.alpha = Math.random() * 0.5;
+      }
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        if (this.x < 0 || this.x > canvas.width) this.x = Math.random() * canvas.width;
+        if (this.y < 0 || this.y > canvas.height) this.y = Math.random() * canvas.height;
+      }
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(77, 204, 255, ${this.alpha})`;
+        ctx.fill();
+      }
+    }
 
-  setTimeout(type, deleting ? deletingSpeed : typingSpeed);
-}
+    for(let i=0; i<60; i++) particles.push(new Particle());
 
-type();
-</script>
-
-
-
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => { p.update(); p.draw(); });
+      requestAnimationFrame(animate);
+    }
+    animate();
+  </script>
 </body>
 </html>
