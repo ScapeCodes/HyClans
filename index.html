@@ -10,374 +10,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style/style.css">
 
   <script src="https://unpkg.com/lucide@latest"></script>
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/ScrollTrigger.min.js"></script>
-
-  <style>
-    :root {
-      --primary: #4dccff;
-      --secondary: #abcfff;
-      --accent: #ff007a;
-      --bg-dark: #050a14;
-      --bg-card: rgba(13, 20, 35, 0.7);
-      --glass-border: rgba(255, 255, 255, 0.08);
-      --text-main: #e6e6e6;
-      --text-muted: #94a3b8;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      scroll-behavior: smooth;
-    }
-
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--bg-dark);
-      color: var(--text-main);
-      overflow-x: hidden;
-      line-height: 1.6;
-    }
-
-    h1, h2, h3, h4, .btn-text {
-      font-family: 'Unbounded', sans-serif;
-    }
-
-    /* BACKGROUND FX */
-    #site-particles {
-      position: fixed;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 0;
-      pointer-events: none;
-    }
-
-    .bg-gradient {
-      position: fixed;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(circle at 50% 0%, #1a2a44 0%, #050a14 60%);
-      z-index: -1;
-    }
-
-    /* NAVIGATION */
-    nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1.2rem 5%;
-      position: fixed;
-      width: 100%;
-      top: 0;
-      z-index: 1000;
-      background: rgba(5, 10, 20, 0.6);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--glass-border);
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-weight: 700;
-      font-size: 1.5rem;
-      color: white;
-      letter-spacing: -1px;
-    }
-    
-    .logo span { color: var(--primary); }
-
-    .nav-links { display: flex; gap: 2.5rem; align-items: center; }
-    .nav-links a {
-      color: white;
-      text-decoration: none;
-      font-size: 0.95rem;
-      font-weight: 500;
-      transition: 0.3s;
-      position: relative;
-    }
-    .nav-links a:hover, .nav-links a.active { color: white; }
-    
-    .nav-cta {
-      padding: 0.6rem 1.4rem;
-      background: linear-gradient(135deg, var(--primary), #3a8dff);
-      color: #000;
-      border-radius: 6px;
-      font-weight: 700;
-      font-family: 'Unbounded';
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      transition: transform 0.2s;
-    }
-    .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 0 20px rgba(77, 204, 255, 0.4); }
-
-    /* HERO SECTION */
-    .hero {
-      min-height: 100vh;
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0 1rem;
-      overflow: hidden;
-    }
-
-    .hero-bg {
-      position: absolute;
-      inset: 0;
-      background: url('https://cdn.hytale.com/5e7a961e5e334000189a2a79_4.jpg') center/cover no-repeat;
-      filter: brightness(0.4);
-      z-index: -1;
-      transform: scale(1.1); /* For parallax JS */
-    }
-
-    .hero-content {
-      position: relative;
-      z-index: 2;
-      text-align: center;
-      max-width: 900px;
-      margin-top: 4rem;
-    }
-
-    .status-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 6px 16px;
-      background: rgba(77, 204, 255, 0.1);
-      border: 1px solid rgba(77, 204, 255, 0.3);
-      border-radius: 50px;
-      margin-bottom: 2rem;
-      font-size: 0.85rem;
-      color: var(--primary);
-      backdrop-filter: blur(5px);
-    }
-    .status-dot { width: 8px; height: 8px; background: var(--primary); border-radius: 50%; box-shadow: 0 0 10px var(--primary); animation: pulse 2s infinite; }
-
-    /* Fixed Typography Stacking */
-    .hero h1 {
-      font-family: 'Unbounded', sans-serif;
-      text-transform: uppercase;
-      font-weight: 900;
-      line-height: 1.1;
-      margin-bottom: 1.5rem;
-      display: flex;
-      flex-direction: column; /* This forces the text to stack */
-      align-items: center;
-      gap: 0.2rem;
-    }
-
-    .static-text {
-      font-size: 4rem;
-      color: white;
-      letter-spacing: 2px;
-      filter: drop-shadow(0 0 20px rgba(0,0,0,0.5));
-    }
-
-    .dynamic-text-wrapper {
-      font-size: 5.5rem;
-      color: var(--primary);
-      display: inline-flex;
-      align-items: center;
-      min-height: 1.2em;
-      filter: drop-shadow(0 0 30px rgba(77, 204, 255, 0.4));
-    }
-
-    .cursor {
-      display: inline-block;
-      width: 6px;
-      height: 0.7em;
-      background-color: var(--primary);
-      margin-left: 10px;
-      animation: blink 1s step-end infinite;
-    }
-
-    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-
-    .hero p {
-      font-size: 1.25rem;
-      color: var(--text-muted);
-      margin-bottom: 2.5rem;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .btn-group { display: flex; gap: 1rem; justify-content: center; }
-
-    .btn {
-      padding: 1rem 2.5rem;
-      border-radius: 8px;
-      font-weight: 700;
-      text-decoration: none;
-      text-transform: uppercase;
-      font-family: 'Unbounded';
-      font-size: 0.9rem;
-      transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      position: relative;
-      overflow: hidden;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .btn-primary {
-      background: white;
-      color: black;
-    }
-    .btn-primary:hover {
-      background: var(--primary);
-      box-shadow: 0 0 30px rgba(77, 204, 255, 0.5);
-    }
-
-    .btn-outline {
-      border: 1px solid rgba(255,255,255,0.2);
-      color: white;
-      backdrop-filter: blur(5px);
-    }
-    .btn-outline:hover {
-      border-color: white;
-      background: rgba(255,255,255,0.05);
-    }
-
-    /* FEATURES (BENTO GRID) */
-    .section { padding: 8rem 5%; position: relative; z-index: 2; }
-    
-    .section-header {
-      margin-bottom: 4rem;
-      text-align: center;
-    }
-    .section-header h2 { font-size: 2.5rem; margin-bottom: 1rem; }
-    .section-header p { color: var(--text-muted); }
-
-    .bento-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: repeat(2, 300px);
-      gap: 1.5rem;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .bento-card {
-      background: var(--bg-card);
-      border: 1px solid var(--glass-border);
-      border-radius: 16px;
-      padding: 2rem;
-      position: relative;
-      overflow: hidden;
-      transition: transform 0.3s, border-color 0.3s;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      backdrop-filter: blur(10px);
-    }
-
-    .bento-card:hover {
-      transform: translateY(-5px);
-      border-color: var(--primary);
-    }
-
-    .card-large { grid-column: span 2; }
-    .card-tall { grid-row: span 2; }
-
-    .card-bg {
-      position: absolute;
-      inset: 0;
-      background-size: cover;
-      background-position: center;
-      opacity: 0.4;
-      transition: 0.5s;
-      z-index: 0;
-    }
-    .bento-card:hover .card-bg { transform: scale(1.05); opacity: 0.6; }
-    .card-content { position: relative; z-index: 1; pointer-events: none; }
-    
-    .bento-card h3 { font-size: 1.5rem; margin-bottom: 0.5rem; color: white; }
-    .bento-card p { font-size: 0.9rem; color: #ccc; }
-
-    /* LORE / NEWS SLIDER */
-    .content-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .news-card {
-      background: var(--bg-card);
-      border: 1px solid var(--glass-border);
-      border-radius: 12px;
-      overflow: hidden;
-      transition: 0.3s;
-    }
-    .news-card:hover { border-color: var(--secondary); transform: translateY(-5px); }
-    
-    .news-img {
-      height: 200px;
-      width: 100%;
-      background: #111;
-      overflow: hidden;
-    }
-    .news-img img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
-    .news-card:hover .news-img img { transform: scale(1.1); }
-
-    .news-body { padding: 1.5rem; }
-    .news-date { font-size: 0.8rem; color: var(--primary); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem; display: block;}
-    .news-body h4 { font-size: 1.2rem; margin-bottom: 0.8rem; }
-    .news-body p { font-size: 0.9rem; color: var(--text-muted); }
-
-    /* FOOTER */
-    footer {
-      border-top: 1px solid var(--glass-border);
-      background: #020408;
-      padding: 4rem 5% 2rem;
-      margin-top: 4rem;
-    }
-    .footer-content {
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 2rem;
-      max-width: 1200px;
-      margin: 0 auto 3rem;
-    }
-    .footer-col h5 { font-family: 'Unbounded'; margin-bottom: 1.5rem; color: white; }
-    .footer-col ul { list-style: none; }
-    .footer-col ul li { margin-bottom: 0.8rem; }
-    .footer-col a { color: var(--text-muted); text-decoration: none; transition: 0.2s; }
-    .footer-col a:hover { color: var(--primary); }
-
-    .copyright {
-      text-align: center;
-      padding-top: 2rem;
-      border-top: 1px solid rgba(255,255,255,0.05);
-      font-size: 0.85rem;
-      color: #555;
-    }
-
-    /* UTILITIES */
-    .text-gradient { background: linear-gradient(90deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
-
-    /* RESPONSIVE */
-    @media (max-width: 768px) {
-      .hero h1 { margin-bottom: 1rem; }
-      .static-text { font-size: 2.5rem; }
-      .dynamic-text-wrapper { font-size: 3.5rem; }
-      
-      .bento-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
-      .card-large, .card-tall { grid-column: span 1; grid-row: span 1; min-height: 250px; }
-      .nav-links { display: none; } /* Mobile menu placeholder */
-    }
-  </style>
 </head>
 <body>
 
@@ -392,7 +30,7 @@
     <div class="nav-links">
       <a href="#" class="active">Home</a>
       <a href="#features">Features</a>
-
+      <a href="#roadmap">Roadmap</a>
       <a href="https://discord.gg/EDaYFTkB66" class="nav-cta">Join Discord</a>
     </div>
   </nav>
@@ -468,6 +106,97 @@
     </div>
   </section>
 
+<section class="section roadmap-section" id="roadmap">
+  <div class="section-header">
+    <h2>The Roadmap to <span class="text-gradient">Launch</span></h2>
+    <p>With every milestone, we move nearer to delivering the HyClans Experience.</p>
+  </div>
+
+  <div class="roadmap-container">
+    <div class="roadmap-line">
+      <div class="roadmap-line-fill" style="width: 30%;"></div>
+    </div>
+
+    <div class="roadmap-items">
+
+      <div class="roadmap-stage completed">
+        <div class="stage-dot"></div>
+        <div class="stage-content">
+          <div class="stage-date">NOV 2025 
+            <i data-lucide="check-circle" style="color: var(--primary);"></i>
+          </div>
+          <h3>Project Kickoff</h3>
+          <p style="margin-bottom: 1rem;">Setting the foundation for HyClans.</p>
+          <ul>
+            <li><i data-lucide="circle-dot"></i> Concept Prep</li>
+            <li><i data-lucide="circle-dot"></i> Discord Community</li>
+            <li><i data-lucide="circle-dot"></i> Starting Core Backend</li>
+            <li><i data-lucide="circle-dot"></i> Brand Identity</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="roadmap-stage active">
+        <div class="stage-dot"></div>
+        <div class="stage-content">
+          <div class="stage-date">Dec 2025 
+            <i data-lucide="clipboard"></i>
+          </div>
+          <h3>Pre-Launch Prep</h3>
+          <p style="margin-bottom: 1rem;">Final tuning before Hytale EA.</p>
+          <ul>
+            <li><i data-lucide="circle-dot"></i> Core backend 90% done</li>
+            <li><i data-lucide="circle-dot"></i> Concept Art</li>
+            <li><i data-lucide="circle-dot"></i> Site Redesign</li>
+            <li><i data-lucide="circle-dot"></i> Building The Team</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="roadmap-stage">
+        <div class="stage-dot"></div>
+        <div class="stage-content">
+          <div class="stage-date">Jan 13, 2026 
+            <i data-lucide="rocket"></i>
+          </div>
+          <h3>Hytale EA Launch</h3>
+          <p style="margin-bottom: 1rem;">Development sync begins.</p>
+          <ul>
+            <li><i data-lucide="circle-dot"></i> Hytale EA Playing</li>
+            <li><i data-lucide="circle-dot"></i> Server Creation</li>
+            <li><i data-lucide="circle-dot"></i> Hytale Server API</li>
+            <li><i data-lucide="circle-dot"></i> Server Development Begins</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="roadmap-stage">
+        <div class="stage-dot"></div>
+        <div class="stage-content">
+          <div class="stage-date">Q2 2026 
+            <i data-lucide="anchor"></i>
+          </div>
+          <h3>BETA Release</h3>
+          <p style="margin-bottom: 1rem;">First playable build.</p>
+          <ul>
+            <li><i data-lucide="circle-dot"></i> Server Trailer</li>
+            <li><i data-lucide="circle-dot"></i> Community Feedback</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+    <div style="margin-top: 4rem; padding: 1rem; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; max-width: 500px; margin-left: auto; margin-right: auto; background: rgba(0,0,0,0.2);">
+      <p style="font-size: 0.9rem; color: var(--text-muted);">
+        <i data-lucide="git-fork" style="width: 16px; height: 16px; color: var(--accent); display: inline-block; vertical-align: middle; margin-right: 8px;"></i>
+        The roadmap evolves with Hytale’s development.
+      </p>
+    </div>
+
+  </div>
+</section>
+
   <footer>
     <div class="footer-content">
       <div class="footer-col" style="flex: 2; min-width: 300px;">
@@ -527,6 +256,17 @@
       y: 50,
       opacity: 0,
       stagger: 0.2,
+      ease: "power2.out"
+    });
+
+    // ADDED: Roadmap Progress Line Animation
+    gsap.from(".roadmap-line-fill", {
+      scrollTrigger: {
+        trigger: ".roadmap-container",
+        start: "top 80%",
+      },
+      duration: 1.5,
+      width: "0%", // Start at 0 width
       ease: "power2.out"
     });
 
