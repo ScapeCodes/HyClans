@@ -1,0 +1,18 @@
+[
+  {
+    "version": "COMING SOON",
+    "type": "RELEASE",
+    "date": "TBA",
+    "description": "Stable release coming soon.",
+    "changelog": "# Coming Soon\n\nThe stable release is currently in development. Check back later for updates!",
+    "downloads": {}
+  },
+  {
+    "version": "COMING SOON",
+    "type": "DEV",
+    "date": "TBA",
+    "description": "Development build coming soon.",
+    "changelog": "# Coming Soon\n\nDevelopment builds will be available once initial testing is complete.",
+    "downloads": {}
+  }
+]

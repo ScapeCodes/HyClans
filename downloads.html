@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Downloads — HyClans Plugin</title>
+
+  <link rel="icon" type="image/png" href="images/logo.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style/style.css">
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script>
+    // Embedded versions data for local development
+    window.versionsData = [
+      {
+        "version": "COMING SOON",
+        "type": "RELEASE",
+        "date": "TBA",
+        "description": "Stable release coming soon.",
+        "changelog": "# Coming Soon\n\nThe stable release is currently in development. Check back later for updates!",
+        "downloads": {}
+      },
+      {
+        "version": "COMING SOON",
+        "type": "DEV",
+        "date": "TBA",
+        "description": "Development build coming soon.",
+        "changelog": "# Coming Soon\n\nDevelopment builds will be available once initial testing is complete.",
+        "downloads": {}
+      }
+    ];
+  </script>
+
+  <style>
+    .version-tabs {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      border-bottom: 1px solid var(--glass-border);
+      padding-bottom: 1rem;
+    }
+    .tab-btn {
+      padding: 0.6rem 1.2rem;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--glass-border);
+      border-radius: 8px;
+      color: var(--text-main);
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+    .tab-btn:hover {
+      background: rgba(77, 204, 255, 0.1);
+      border-color: rgba(77, 204, 255, 0.3);
+    }
+    .tab-btn.active {
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      color: #000;
+      border-color: transparent;
+    }
+
+    .downloads-content {
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    .versions-main { }
+    .sidebar {
+      background: var(--bg-card);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      padding: 2rem;
+      height: fit-content;
+      position: sticky;
+      top: 2rem;
+    }
+    .sidebar h3 {
+      font-family: 'Unbounded', sans-serif;
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      color: var(--primary);
+    }
+    .sidebar-section { margin-bottom: 2.5rem; }
+    .sidebar-section ul { list-style: none; padding: 0; }
+    .sidebar-section li { margin-bottom: 0.75rem; font-size: 0.9rem; line-height: 1.4; }
+    .sidebar-section ol { padding-left: 1.2rem; }
+    .sidebar-section ol li { margin-bottom: 0.5rem; }
+    .warning {
+      background: rgba(255, 193, 7, 0.1);
+      border: 1px solid rgba(255, 193, 7, 0.3);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .warning h4 {
+      color: #ffc107;
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+    .warning ul {
+      margin-left: 0;
+      padding-left: 1rem;
+    }
+    .warning li {
+      margin-bottom: 0.75rem;
+      line-height: 1.5;
+    }
+
+    .version-card {
+      background: var(--bg-card);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      transition: 0.3s;
+    }
+    .version-card:hover { border-color: var(--primary); }
+    .version-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+    }
+    .plugin-name {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 0.25rem;
+    }
+    .version-number { font-size: 1.4rem; font-weight: 700; color: var(--primary); }
+    .version-date { color: var(--text-muted); font-size: 0.9rem; }
+    .version-description { margin-bottom: 1rem; }
+    .download-buttons { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
+    .download-buttons .btn {
+      padding: 0.8rem 1.2rem;
+      font-size: 0.85rem;
+    }
+    .changelog { display: none; }
+    .changelog.show { display: block; }
+    .toggle-changelog {
+      background: none;
+      border: none;
+      color: var(--primary);
+      cursor: pointer;
+      font-size: 0.9rem;
+      text-decoration: underline;
+    }
+
+    @media (max-width: 1024px) {
+      .downloads-content { grid-template-columns: 1fr; }
+      .sidebar { position: static; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-gradient"></div>
+  <canvas id="site-particles"></canvas>
+
+  <nav>
+    <div class="logo">
+      <div style="width: 68px; height: 68px; background: url('images/logo.png') center/cover; border-radius: 6px; margin-right: 10px;"></div>
+      <span>HYCLANS</span>
+    </div>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="index.html#features">Features</a>
+      <a href="downloads.html" class="active">Downloads</a>
+      <a href="https://discord.gg/EDaYFTkB66" class="nav-cta">Discord</a>
+    </div>
+  </nav>
+
+  <section class="section">
+    <div class="section-header">
+      <h2>Download <span class="text-gradient">HyClans</span></h2>
+      <p>Choose the version that suits your server. All downloads include changelogs.</p>
+    </div>
+
+    <!-- Tabs -->
+    <div class="version-tabs">
+      <button class="tab-btn active" data-tab="stable">STABLE</button>
+      <button class="tab-btn" data-tab="dev">DEV</button>
+    </div>
+
+    <div class="downloads-content">
+      <div class="versions-main">
+        <div id="versions-container">
+          <!-- Versions will be loaded here -->
+        </div>
+      </div>
+
+      <div class="sidebar">
+        <div class="sidebar-section">
+          <h3>Requirements</h3>
+          <ul>
+            <li><strong>Hytale Server</strong>: Early Access or later</li>
+            <li><strong>Java</strong>: 24 or higher</li>
+            <li><strong>RAM</strong>: Minimum 2GB recommended</li>
+          </ul>
+        </div>
+
+        <div class="sidebar-section">
+          <h3>Installation</h3>
+          <ol>
+            <li>Download the plugin JAR file</li>
+            <li>Place it in your server's plugins folder</li>
+            <li>Restart the server</li>
+            <li>Configure permissions and settings</li>
+          </ol>
+        </div>
+
+        <div class="warning">
+          <h4>⚠️ Important Notes</h4>
+          <ul>
+            <li>DEV builds may contain bugs</li>
+            <li>Always backup your world before updating</li>
+            <li>Check changelogs for breaking changes</li>
+          </ul>
+        </div>
+
+        <div class="sidebar-section">
+          <h3>Support</h3>
+          <p>Join our <a href="https://discord.gg/EDaYFTkB66" style="color: var(--primary);">Discord</a> for help and updates.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-col" style="flex: 2; min-width: 300px;">
+        <div class="logo" style="margin-bottom: 1rem;"><span>HYCLANS</span></div>
+        <p style="color: #666; max-width: 350px;">
+          The ultimate Clans plugin for Hytale servers. Not affiliated with Hypixel Studios. All game assets are property of their respective owners.
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h5>Plugin</h5>
+        <ul>
+          <li><a href="downloads.html">Downloads</a></li>
+          <li><a href="index.html#features">Features</a></li>
+          <li><a href="#">Documentation</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Community</h5>
+        <ul>
+          <li><a href="https://discord.gg/EDaYFTkB66">Discord</a></li>
+          <li><a href="#">Forums</a></li>
+          <li><a href="#">Support</a></li>
+          <li><a href="#">Wiki</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="copyright">
+      &copy; 2025 HyClans Network.
+    </div>
+  </footer>
+
+  <script>
+    // Initialize Lucide Icons
+    lucide.createIcons();
+
+    // GSAP Animations
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Particle System
+    const canvas = document.getElementById("site-particles");
+    const ctx = canvas.getContext("2d");
+    let particles = [];
+
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener("resize", resize);
+    resize();
+
+    class Particle {
+      constructor() {
+        this.reset();
+      }
+      reset() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.vx = (Math.random() - 0.5) * 0.2;
+        this.vy = (Math.random() - 0.5) * 0.2;
+        this.size = Math.random() * 2;
+        this.alpha = Math.random() * 0.5;
+      }
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        if (this.x < 0 || this.x > canvas.width) this.x = Math.random() * canvas.width;
+        if (this.y < 0 || this.y > canvas.height) this.y = Math.random() * canvas.height;
+      }
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(77, 204, 255, ${this.alpha})`;
+        ctx.fill();
+      }
+    }
+
+    for(let i=0; i<60; i++) particles.push(new Particle());
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => { p.update(); p.draw(); });
+      requestAnimationFrame(animate);
+    }
+    animate();
+
+    // Load versions
+    async function loadVersions(tab = 'stable') {
+      let allVersions = [];
+
+      if (window.versionsData) {
+        // Use embedded data for local development
+        allVersions = window.versionsData;
+      } else {
+        try {
+          const response = await fetch('versions.json');
+          allVersions = await response.json();
+        } catch (error) {
+          console.warn('Failed to load versions.json, using fallback data');
+          // Fallback data - indicates JSON load failure
+          allVersions = [
+            {
+              version: "Error",
+              type: "RELEASE",
+              date: "N/A",
+              description: "Something went wrong loading version data.",
+              changelog: "# Error\n\nFailed to load versions.json. Please check your connection or try again later.",
+              downloads: {}
+            },
+            {
+              version: "Error",
+              type: "DEV",
+              date: "N/A",
+              description: "Something went wrong loading version data.",
+              changelog: "# Error\n\nFailed to load versions.json. Please check your connection or try again later.",
+              downloads: {}
+            }
+          ];
+        }
+      }
+
+      const container = document.getElementById('versions-container');
+      container.innerHTML = '';
+
+      const filteredVersions = tab === 'stable' ?
+        allVersions.filter(v => v.type === 'RELEASE') :
+        allVersions.filter(v => v.type === 'DEV');
+
+      filteredVersions.forEach(ver => {
+        const card = document.createElement('div');
+        card.className = 'version-card';
+
+        const downloadBtns = [];
+        if (ver.downloads.release) {
+          downloadBtns.push(`<a href="${ver.downloads.release}" class="btn btn-primary"><i data-lucide="download"></i> Download RELEASE</a>`);
+        }
+        if (ver.downloads.dev) {
+          downloadBtns.push(`<a href="${ver.downloads.dev}" class="btn btn-outline"><i data-lucide="code"></i> Download DEV</a>`);
+        }
+
+        card.innerHTML = `
+          <div class="version-header">
+            <div>
+              <div class="plugin-name">HyClans</div>
+              <div class="version-number">${ver.version} <span style="font-size: 0.8rem; color: var(--text-muted);">(${ver.type})</span></div>
+            </div>
+            <div class="version-date">${new Date(ver.date).toLocaleDateString()}</div>
+          </div>
+          <div class="version-description">${ver.description}</div>
+          <div class="download-buttons">${downloadBtns.join('')}</div>
+          <button class="toggle-changelog" onclick="toggleChangelog(this)">View Changelog</button>
+          <div class="changelog">${marked.parse(ver.changelog)}</div>
+        `;
+
+        container.appendChild(card);
+      });
+
+      lucide.createIcons();
+    }
+
+    // Tab switching
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        await loadVersions(btn.dataset.tab);
+      });
+    });
+
+    function toggleChangelog(btn) {
+      const changelog = btn.nextElementSibling;
+      if (changelog.classList.contains('show')) {
+        changelog.classList.remove('show');
+        btn.textContent = 'View Changelog';
+      } else {
+        changelog.classList.add('show');
+        btn.textContent = 'Hide Changelog';
+      }
+    }
+
+    loadVersions();
+  </script>
+</body>
+</html>

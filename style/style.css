@@ -482,6 +482,46 @@
     .text-gradient { background: linear-gradient(90deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
     @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
 
+    /* FEATURES TABLE */
+    .features-table-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: var(--bg-card);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .features-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .features-table th,
+    .features-table td {
+      padding: 1.2rem 1.5rem;
+      text-align: left;
+      border-bottom: 1px solid var(--glass-border);
+    }
+    .features-table th {
+      background: rgba(77, 204, 255, 0.1);
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--primary);
+    }
+    .features-table td {
+      color: var(--text-main);
+      line-height: 1.5;
+    }
+    .features-table td:first-child {
+      font-weight: 600;
+      width: 30%;
+    }
+    .features-table tr:hover {
+      background: rgba(77, 204, 255, 0.05);
+    }
+    .features-table tr:last-child td {
+      border-bottom: none;
+    }
+
     /* RESPONSIVE */
     @media (max-width: 1024px) {
       .roadmap-items { flex-wrap: wrap; }
